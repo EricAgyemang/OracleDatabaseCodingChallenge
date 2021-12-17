@@ -1,0 +1,42 @@
+SQL> ---DDL for in-class
+SQL> SET ECHO ON;
+SQL> DROP TABLE T;
+
+Table T dropped.
+
+SQL> 
+SQL> CREATE TABLE T (PID NUMBER(5,0), FNAME VARCHAR2(20), LNAME VARCHAR2(25));
+
+Table T created.
+
+SQL> 
+SQL> 
+SQL> Insert into T (PID,FNAME,LNAME) values (1,'Dan','Morgan');
+
+1 row inserted.
+
+SQL> Insert into T (PID,FNAME,LNAME) values (2,'Jeremiah','Wilton');
+
+1 row inserted.
+
+SQL> Insert into T (PID,FNAME,LNAME) values (3,'Helen','Lofstrom');
+
+1 row inserted.
+
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> --1. Grant SELECT privileges on table T to 2 students in this class. have them test access to table T
+SQL> GRANT SELECT ON T TO IT47812, IT47814;
+
+Grant succeeded.
+
+SQL> 
+SQL> --2. Revoke privileges of the two students. send me an email with your SQL code and results. 
+SQL> REVOKE SELECT ON T FROM IT47812, IT47814;
+
+Revoke succeeded.
+

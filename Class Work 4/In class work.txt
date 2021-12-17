@@ -1,0 +1,41 @@
+
+
+09-27-2021 IN-CLASS
+
+--------------------------------------------------------
+--  DDL for Table rs
+--------------------------------------------------------
+
+create table rs
+( sno    char(5)  not null,
+  sname  char(20) not null,
+  status smallint,
+  city   char(15),
+  primary key (sno)
+);
+
+insert into rs (sno, sname, status,city)
+values('s1', 'Smith', 20, 'London');
+insert into rs
+values('s2', 'Jones', 30, 'Paris');
+insert into rs
+values('s3', 'Blake', 30, 'Paris');
+insert into rs
+values('s4', 'Clark', 20, 'London');
+insert into rs
+values('s5', 'Adams', 30, 'Athens');
+
+--------------------------------------------------------
+--  END DDL for Table rs
+--------------------------------------------------------
+
+
+-- Table rs lists the city, city status and salespeople in each city. 
+-- 1) List the city with only 1 sales person
+-- 2) List the total number of salespeople working in cities with exactly 2 salespeople.
+-- 3) List the city and the status for each city. The results should only have one row per city.
+
+STOP -- send me your answers via email. NOW, after you have sent me your answers to 1-3, try the follow: 
+
+-- 4) Find the average city status  (it is 26.667) for all cities in the rs table. 
+ 

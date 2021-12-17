@@ -1,0 +1,97 @@
+SQL> --------------------------------------------------------
+SQL> --  DDL for Table rs
+SQL> --------------------------------------------------------
+SQL> DROP TABLE rs;
+
+Table RS dropped.
+
+SQL> 
+SQL> create table rs
+  2  ( sno    char(5)  not null,
+  3    sname  char(20) not null,
+  4    status smallint,
+  5    city   char(15),
+  6    primary key (sno)
+  7  );
+
+Table RS created.
+
+SQL> 
+SQL> insert into rs (sno, sname, status,city)
+  2  values('s1', 'Smith', 20, 'London');
+
+1 row inserted.
+
+SQL> insert into rs
+  2  values('s2', 'Jones', 30, 'Paris');
+
+1 row inserted.
+
+SQL> insert into rs
+  2  values('s3', 'Blake', 30, 'Paris');
+
+1 row inserted.
+
+SQL> insert into rs
+  2  values('s4', 'Clark', 20, 'London');
+
+1 row inserted.
+
+SQL> insert into rs
+  2  values('s5', 'Adams', 30, 'Athens');
+
+1 row inserted.
+
+SQL> 
+SQL> --------------------------------------------------------
+SQL> --  END DDL for Table rs
+SQL> --------------------------------------------------------
+SQL> 
+SQL> SET ECHO ON;
+SQL> 
+SQL> -- Table rs lists the city, city status and salespeople in each city. 
+SQL> -- 1) List the city with only 1 sales person
+SQL> SELECT city, count(*)
+  2  FROM rs
+  3  GROUP BY city
+  4  HAVING count(*)=1;
+
+CITY              COUNT(*)
+--------------- ----------
+Athens                   1
+
+SQL> 
+SQL> -- 2) List the total number of salespeople working in cities with exactly 2 salespeople.
+SQL> SELECT city, count(*) AS total_num_sales_Person
+  2  FROM rs
+  3  GROUP BY city
+  4  HAVING count(*)=2;
+
+CITY            TOTAL_NUM_SALES_PERSON
+--------------- ----------------------
+London                               2
+Paris                                2
+
+SQL> 
+SQL> -- 3) List the city and the status for each city. The results should only have one row per city.
+SQL> SELECT DISTINCT city, status
+  2  FROM rs;
+
+CITY                STATUS
+--------------- ----------
+Athens                  30
+Paris                   30
+London                  20
+
+SQL> 
+SQL> 
+SQL> -- 4) Find the average city status  (it is 26.667) for all cities in the rs table. 
+SQL> SELECT ROUND(AVG(status), 3) AS average_city_status 
+  2  FROM(
+  3  (SELECT DISTINCT city, status
+  4  FROM rs));
+
+AVERAGE_CITY_STATUS
+-------------------
+             26.667
+

@@ -1,0 +1,374 @@
+SQL> -- This is an ORACLE assignment
+SQL> -- Load the DDL for Vote table and data and then answer the questions below:
+SQL> 
+SQL> -----------------------------------------------------------
+SQL> --  DDL for Table VOTE (Lab 5)
+SQL> -----------------------------------------------------------
+SQL> -- Eric Agyemang
+SQL> -- IT 478 Advanced Database Processing
+SQL> -- Lab 5
+SQL> DROP TABLE VOTE;
+
+Table VOTE dropped.
+
+SQL> 
+SQL>   CREATE TABLE "VOTE" 
+  2     (    "STATE" VARCHAR2(26), 
+  3      "YEAR" NUMBER(4,0), 
+  4      "WINNER" VARCHAR2(20) 
+  5     );
+
+Table "VOTE" created.
+
+SQL> 
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('California',2016,'CLINTON');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('California',2012,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('California',2008,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Florida',2016,'TRUMP');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Florida',2012,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Florida',2008,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Illinois',2016,'CLINTON');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Illinois',2012,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Illinois',2008,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Indiana',2008,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Indiana',2012,'ROMNEY');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Indiana',2016,'TRUMP');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('North Carolina',2008,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('North Carolina',2012,'ROMNEY');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('North Carolina',2016,'TRUMP');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Iowa',2016,'TRUMP');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Iowa',2012,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Iowa',2008,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Michigan',2016,'TRUMP');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Michigan',2012,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Michigan',2008,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('New York',2016,'CLINTON');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('New York',2012,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('New York',2008,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Ohio',2016,'TRUMP');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Ohio',2012,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Ohio',2008,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Pennsylvania',2016,'TRUMP');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Pennsylvania',2012,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Pennsylvania',2008,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Texas',2016,'TRUMP');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Texas',2012,'ROMNEY');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Texas',2008,'MCCAIN');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Wisconsin',2016,'TRUMP');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Wisconsin',2012,'OBAMA');
+
+1 row inserted.
+
+SQL> Insert into VOTE (STATE,YEAR,WINNER) values ('Wisconsin',2008,'OBAMA');
+
+1 row inserted.
+
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> SET ECHO ON;
+SQL> --Question 1
+SQL> --1 List the states that Obama won in 2008 that Trump also won in 2016. USE INTERSECT
+SQL> SELECT STATE 
+  2  FROM VOTE
+  3  WHERE WINNER = 'OBAMA' AND YEAR = '2008'
+  4  INTERSECT
+  5  SELECT STATE 
+  6  FROM VOTE
+  7  WHERE WINNER = 'TRUMP' AND YEAR = '2016';
+
+STATE                     
+--------------------------
+Florida
+Indiana
+Iowa
+Michigan
+North Carolina
+Ohio
+Pennsylvania
+Wisconsin
+
+8 rows selected. 
+
+SQL> 
+SQL> --Question 2
+SQL> --2 List the states that Romney won in 2012 plus the states that Trump won in 2016. USE UNION
+SQL> SELECT STATE 
+  2  FROM VOTE
+  3  WHERE WINNER = 'ROMNEY' AND YEAR = '2012'
+  4  UNION
+  5  SELECT STATE 
+  6  FROM VOTE
+  7  WHERE WINNER = 'TRUMP' AND YEAR = '2016';
+
+STATE                     
+--------------------------
+Florida
+Indiana
+Iowa
+Michigan
+North Carolina
+Ohio
+Pennsylvania
+Texas
+Wisconsin
+
+9 rows selected. 
+
+SQL> 
+SQL> --Question 3
+SQL> --3 List the states McCain won in 2008 that Trump also won in 2016. USE UNION ALL
+SQL> SELECT STATE 
+  2  FROM VOTE
+  3  WHERE WINNER = 'MCCAIN' AND YEAR = '2008'
+  4  UNION ALL
+  5  SELECT STATE 
+  6  FROM VOTE
+  7  WHERE WINNER = 'TRUMP' AND YEAR = '2016';
+
+STATE                     
+--------------------------
+Texas
+Florida
+Indiana
+North Carolina
+Iowa
+Michigan
+Ohio
+Pennsylvania
+Texas
+Wisconsin
+
+10 rows selected. 
+
+SQL> 
+SQL> 
+SQL> --Question 4
+SQL> --4 List the States that Obama won in 2008 that Clinton did not win in 2016. USE MINUS
+SQL> SELECT STATE 
+  2  FROM VOTE
+  3  WHERE WINNER = 'OBAMA' AND YEAR = '2008'
+  4  MINUS
+  5  SELECT STATE 
+  6  FROM VOTE
+  7  WHERE WINNER = 'CLINTON' AND YEAR = '2016';
+
+STATE                     
+--------------------------
+Florida
+Indiana
+Iowa
+Michigan
+North Carolina
+Ohio
+Pennsylvania
+Wisconsin
+
+8 rows selected. 
+
+SQL> 
+SQL> 
+SQL> --Question 5
+SQL> --5 List the states that Obama won in 2012 plus the states that Obama won in 2008. USE UNION
+SQL> 
+SQL> SELECT STATE
+  2  FROM VOTE
+  3  WHERE WINNER = 'OBAMA' AND YEAR = '2012'
+  4  UNION
+  5  SELECT STATE 
+  6  FROM VOTE
+  7  WHERE WINNER = 'OBAMA' AND YEAR = '2008';
+
+STATE                     
+--------------------------
+California
+Florida
+Illinois
+Indiana
+Iowa
+Michigan
+New York
+North Carolina
+Ohio
+Pennsylvania
+Wisconsin
+
+11 rows selected. 
+
+SQL> 
+SQL> --Question 6
+SQL> --6 List states won democratic candidates (Obama and Clinton) won in all three elections (2008, 2012, 2016). USE 2 INTERSECTS.
+SQL> SELECT STATE 
+  2  FROM VOTE
+  3  WHERE WINNER ='OBAMA' AND YEAR='2008'
+  4  INTERSECT
+  5  SELECT STATE 
+  6  FROM VOTE
+  7  WHERE WINNER ='OBAMA' AND YEAR='2012'
+  8  INTERSECT
+  9  SELECT STATE 
+ 10  FROM VOTE
+ 11  WHERE WINNER='CLINTON' AND YEAR='2016';
+
+STATE                     
+--------------------------
+California
+Illinois
+New York
+
+SQL> 
+SQL> --Question 7
+SQL> --7 List the States that Obama won in 2008 and 2012, that Clinton did not win in 2016. USE WHATEVER YOU LIKE.
+SQL> SELECT STATE FROM VOTE
+  2  WHERE WINNER ='OBAMA' AND YEAR='2008'
+  3  INTERSECT
+  4  SELECT STATE
+  5  FROM VOTE
+  6  WHERE WINNER ='OBAMA' AND YEAR='2012'
+  7  MINUS
+  8  SELECT STATE FROM VOTE
+  9  WHERE WINNER='CLINTON' AND YEAR=2016;
+
+STATE                     
+--------------------------
+Florida
+Iowa
+Michigan
+Ohio
+Pennsylvania
+Wisconsin
+
+6 rows selected. 
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 8
+SQL> --8 List the States that Trump won in 2016 that Romney did not win in 2012. USE MINUS
+SQL> 
+SQL> SELECT STATE 
+  2  FROM VOTE
+  3  WHERE WINNER='TRUMP' AND YEAR='2016'
+  4  MINUS 
+  5  SELECT STATE FROM VOTE
+  6  WHERE WINNER='ROMNEY' AND YEAR='2012';
+
+STATE                     
+--------------------------
+Florida
+Iowa
+Michigan
+Ohio
+Pennsylvania
+Wisconsin
+
+6 rows selected. 
+
+SQL> 
+SQL> 
+SQL> -- Post answers and SQL to ReggieNet (use SET ECHO ON;)

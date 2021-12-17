@@ -1,0 +1,260 @@
+SQL> -- ERIC AGYEMANG--
+SQL> -- IT 478 ADVANCED DATABASE PROCESSING --
+SQL> 
+SQL> -- LAB #1 DDL--
+SQL> -- DROP TABLES IF EXISTS.
+SQL> 
+SQL> DROP TABLE reserves;
+
+Table RESERVES dropped.
+
+SQL> DROP TABLE sailors;
+
+Table SAILORS dropped.
+
+SQL> DROP TABLE boats;
+
+Table BOATS dropped.
+
+SQL> 
+SQL> -- CREATE TABLES
+SQL> CREATE TABLE sailors(
+  2   sid INT NOT NULL CONSTRAINT sailors_PK PRIMARY KEY,
+  3   sname VARCHAR2(20),
+  4   rating INT,
+  5   age DECIMAL(4,1)
+  6  );
+
+Table SAILORS created.
+
+SQL> CREATE TABLE boats(
+  2   bid INT NOT NULL CONSTRAINT BOAT_PK PRIMARY KEY,
+  3   bname VARCHAR2(20),
+  4   color VARCHAR2(20)
+  5   );
+
+Table BOATS created.
+
+SQL> 
+SQL> CREATE TABLE reserves(
+  2   sid INT,
+  3   bid INT,
+  4   day DATE,
+  5   PRIMARY KEY (sid,bid,day),
+  6   FOREIGN KEY (sid) REFERENCES sailors(sid) ON DELETE CASCADE,
+  7   FOREIGN KEY (bid) REFERENCES boats(bid) ON DELETE CASCADE
+  8  );
+
+Table RESERVES created.
+
+SQL> -- INITIALIZE THE TABLES
+SQL> INSERT INTO sailors (sid,sname,rating,age) VALUES(22,'Dustin',7,45.0);
+
+1 row inserted.
+
+SQL> INSERT INTO sailors (sid,sname,rating,age) VALUES(29,'Brutus',1,33.0);
+
+1 row inserted.
+
+SQL> INSERT INTO sailors (sid,sname,rating,age) VALUES(31,'Lubber',8,55.5);
+
+1 row inserted.
+
+SQL> INSERT INTO sailors (sid,sname,rating,age) VALUES(32,'Andy',8,25.5);
+
+1 row inserted.
+
+SQL> INSERT INTO sailors (sid,sname,rating,age) VALUES(58,'Rusty',10,35.0);
+
+1 row inserted.
+
+SQL> INSERT INTO sailors (sid,sname,rating,age) VALUES(64,'Horataio',7,35.0);
+
+1 row inserted.
+
+SQL> INSERT INTO sailors (sid,sname,rating,age) VALUES(71,'Zorba',10,16.0);
+
+1 row inserted.
+
+SQL> INSERT INTO sailors (sid,sname,rating,age) VALUES(74,'Horataio',9,35.0);
+
+1 row inserted.
+
+SQL> INSERT INTO sailors (sid,sname,rating,age) VALUES(85,'Art',3,25.5);
+
+1 row inserted.
+
+SQL> INSERT INTO sailors (sid,sname,rating,age) VALUES(95,'Bob',3,63.5);
+
+1 row inserted.
+
+SQL> INSERT INTO boats (bid,bname,color) VALUES(101,'Interlake','blue');
+
+1 row inserted.
+
+SQL> INSERT INTO boats (bid,bname,color) VALUES(102,'Interlake','red');
+
+1 row inserted.
+
+SQL> INSERT INTO boats (bid,bname,color) VALUES(103,'Clipper','green');
+
+1 row inserted.
+
+SQL> INSERT INTO boats (bid,bname,color) VALUES(104,'Marine','red');
+
+1 row inserted.
+
+SQL> 
+SQL> INSERT INTO reserves(sid,bid,day) VALUES(58,101,'10-OCT-20');
+
+1 row inserted.
+
+SQL> INSERT INTO reserves(sid,bid,day) VALUES(58,102,'10-OCT-20');
+
+1 row inserted.
+
+SQL> INSERT INTO reserves(sid,bid,day) VALUES(58,103,'8-OCT-20');
+
+1 row inserted.
+
+SQL> INSERT INTO reserves(sid,bid,day) VALUES(29,104,'7-OCT-20');
+
+1 row inserted.
+
+SQL> INSERT INTO reserves(sid,bid,day) VALUES(29,102,'10-Nov-20');
+
+1 row inserted.
+
+SQL> INSERT INTO reserves(sid,bid,day) VALUES(71,103,'6-NOV-20');
+
+1 row inserted.
+
+SQL> INSERT INTO reserves(sid,bid,day) VALUES(74,104,'12-NOV-20');
+
+1 row inserted.
+
+SQL> INSERT INTO reserves(sid,bid,day) VALUES(64,101,'5-SEP-20');
+
+1 row inserted.
+
+SQL> INSERT INTO reserves(sid,bid,day) VALUES(64,102,'8-SEP-20');
+
+1 row inserted.
+
+SQL> INSERT INTO reserves(sid,bid,day) VALUES(74,103,'8-SEP-20');
+
+1 row inserted.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> -- END LAB #1 DDL--
+SQL> -- ANSWERS TO THE LAB
+SQL> -- QUESTION 1
+SQL> SET ECHO ON;
+SQL> 
+SQL> SELECT sname
+  2  FROM sailors S JOIN reserves r
+  3      ON s.sid = r.sid
+  4  WHERE bid = 102;
+
+SNAME               
+--------------------
+Brutus
+Rusty
+Horataio
+
+SQL> 
+SQL> 
+SQL> -- QUESTION 2
+SQL> SELECT DISTINCT sname
+  2  FROM sailors s JOIN reserves r
+  3   ON s.sid = r.sid
+  4   WHERE bid != 102;
+
+SNAME               
+--------------------
+Rusty
+Brutus
+Horataio
+Zorba
+
+SQL> 
+SQL> -- EXTRA CREDIT
+SQL> SELECT sname
+  2  FROM sailors s JOIN reserves r
+  3   ON s.sid = r.sid
+  4   WHERE bid != 102;
+
+SNAME               
+--------------------
+Brutus
+Rusty
+Rusty
+Horataio
+Zorba
+Horataio
+Horataio
+
+7 rows selected. 
+
+SQL> 
+SQL> -- QUESTION 3
+SQL> SELECT DISTINCT sname
+  2  FROM sailors s, reserves r, boats b
+  3   WHERE s.sid = r.sid
+  4    AND r.bid = b.bid
+  5    AND b.color = 'blue';
+
+SNAME               
+--------------------
+Rusty
+Horataio
+
+SQL> 
+SQL> -- QUESTION 4
+SQL> SELECT color
+  2  FROM boats b JOIN reserves r
+  3   ON b.bid = r.bid
+  4   JOIN sailors s
+  5   ON s.sid = r.sid
+  6   WHERE sname = 'Rusty';
+
+COLOR               
+--------------------
+blue
+red
+green
+
+SQL> 
+SQL> -- QUESTION 5
+SQL> SELECT DISTINCT S.sname, S.sid
+  2  FROM sailors S, reserves R
+  3  WHERE S.sid = R.sid
+  4  ORDER BY sid;
+
+SNAME                       SID
+-------------------- ----------
+Brutus                       29
+Rusty                        58
+Horataio                     64
+Zorba                        71
+Horataio                     74
+
+SQL> 
+SQL> -- QUESTION 6
+SQL> SELECT DISTINCT sname, sailors.sid
+  2  FROM sailors JOIN reserves
+  3   ON sailors.sid = reserves.sid
+  4   JOIN boats
+  5   ON boats.bid = reserves.bid
+  6   WHERE color IN ('red', 'blue');
+
+SNAME                       SID
+-------------------- ----------
+Rusty                        58
+Horataio                     74
+Horataio                     64
+Brutus                       29
+

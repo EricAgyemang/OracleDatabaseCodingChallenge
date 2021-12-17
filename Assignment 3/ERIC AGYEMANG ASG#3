@@ -1,0 +1,201 @@
+SQL> -- ERIC AGYEMANG
+SQL> -- IT 478 ADVANCED DATABASE PROCESSING
+SQL> --HMW# 3
+SQL> 
+SQL> SET ECHO ON;
+SQL> --1. Create a procedure that, when given a 2 character state abbreviation, and a population will change the state's population to the one provided.
+SQL> CREATE OR REPLACE PROCEDURE state_pop_change
+  2  (
+  3  state_abbr_param VARCHAR2,
+  4  new_pop_param   NUMBER
+  5  )
+  6  AS
+  7  BEGIN
+  8    UPDATE states
+  9    SET population = new_pop_param
+ 10    WHERE abbr = state_abbr_param;
+ 11  END;
+ 12  /
+
+Procedure STATE_POP_CHANGE compiled
+
+SQL> select * from states;
+
+AB FULL                 POPULATION
+-- -------------------- ----------
+AL Alabama                      10
+AK Alaska                   738432
+AZ Arizona                 6828065
+AR Arkansas                2978204
+CA California             39144818
+CO Colorado                5456574
+CT Connecticut             3590886
+DE Delaware                 945934
+DC District of Columbia     672228
+FL Florida                20271272
+GA Georgia                10214860
+
+AB FULL                 POPULATION
+-- -------------------- ----------
+HI Hawaii                  1431603
+ID Idaho                   1654930
+IL Illinois               12859995
+IN Indiana                 6619680
+IA Iowa                    3123899
+KS Kansas                  2911641
+KY Kentucky                4425092
+LA Louisiana               4670724
+ME Maine                   1329328
+MD Maryland                6006401
+MA Massachusetts           6794422
+
+AB FULL                 POPULATION
+-- -------------------- ----------
+MI Michigan                9922576
+MN Minnesota               5489594
+MS Mississippi             2992333
+MO Missouri                6083672
+MT Montana                 1032949
+NE Nebraska                1896190
+NV Nevada                  2890845
+NH New Hampshire           1330608
+NJ New Jersey              8958013
+NM New Mexico              2085109
+NY New York               19795791
+
+AB FULL                 POPULATION
+-- -------------------- ----------
+NC North Carolina         10042802
+ND North Dakota             756927
+OH Ohio                   11613423
+OK Oklahoma                3911338
+OR Oregon                  4028977
+PA Pennsylvania           12802503
+RI Rhode Island            1056298
+SC South Carolina          4896146
+SD South Dakota             858469
+TN Tennessee               6600299
+TX Texas                  27469114
+
+AB FULL                 POPULATION
+-- -------------------- ----------
+UT Utah                    2995919
+VT Vermont                  626042
+VA Virginia                8382993
+WA Washington              7170351
+WV West Virginia           1844128
+WI Wisconsin               5771337
+WY Wyoming                  586107
+
+51 rows selected. 
+
+SQL> call state_pop_change('AL', 10);
+
+Call completed.
+
+SQL> --2. Create a function that, when given a 2 character state abbreviation, will return state's full name.
+SQL> CREATE OR REPLACE FUNCTION get_full_name
+  2  (
+  3  state_abbr_param VARCHAR2
+  4  )
+  5  RETURN VARCHAR2
+  6  AS
+  7   state_full_name VARCHAR2(20);
+  8   BEGIN
+  9    SELECT full --join
+ 10    INTO state_full_name
+ 11    FROM states
+ 12    WHERE abbr = state_abbr_param;
+ 13  
+ 14    RETURN state_full_name;
+ 15    END;
+ 16  /
+
+Function GET_FULL_NAME compiled
+
+SQL> select get_full_name('CO') as state from dual;
+
+STATE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Colorado
+
+SQL> --3. Use the function that when given the 2-character abbreviation of a state will return the number of Sears stores closing in the state.
+SQL> CREATE OR REPLACE FUNCTION number_closing
+  2  (
+  3  state_abbr_param VARCHAR2
+  4  )
+  5  RETURN NUMBER
+  6  AS
+  7   store_closings NUMBER;
+  8   BEGIN
+  9    SELECT COUNT(*)
+ 10    INTO store_closings
+ 11    FROM closings
+ 12    WHERE state = state_abbr_param;
+ 13  
+ 14    RETURN store_closings;
+ 15    END;
+ 16  /
+
+Function NUMBER_CLOSING compiled
+
+SQL> select number_closing('CO') as state from dual;
+
+     STATE
+----------
+         6
+
+SQL> --4. Create a function that when given the 2-character abbreviation of a state will return the population of the state. 
+SQL> 
+SQL> CREATE OR REPLACE FUNCTION get_state_pop
+  2  (
+  3    state_abbr_param VARCHAR2
+  4  )
+  5  RETURN NUMBER
+  6  AS
+  7   state_pop NUMBER;
+  8  BEGIN
+  9     SELECT population 
+ 10     INTO state_pop
+ 11     FROM states
+ 12     WHERE abbr = state_abbr_param;
+ 13  
+ 14     RETURN state_pop;
+ 15  END;
+ 16  /
+
+Function GET_STATE_POP compiled
+
+SQL> SELECT get_state_pop('CO') as state from dual;
+
+     STATE
+----------
+   5456574
+
+SQL> 
+SQL> --5. Create a function that, when given a brand, will return the total number of that brand's stores closing in the country.
+SQL> CREATE OR REPLACE FUNCTION number_closing
+  2  (
+  3  brand_param VARCHAR2
+  4  )
+  5  RETURN NUMBER
+  6  AS
+  7    store_closings NUMBER;
+  8  BEGIN
+  9    SELECT COUNT(*)
+ 10    INTO store_closings
+ 11    FROM closings
+ 12    WHERE brand = brand_param;
+ 13  
+ 14    RETURN store_closings;
+ 15  END;
+ 16  /
+
+Function NUMBER_CLOSING compiled
+
+SQL> SELECT number_closing('Sears') FROM dual;
+
+NUMBER_CLOSING('SEARS')
+-----------------------
+                     42
+

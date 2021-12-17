@@ -1,0 +1,127 @@
+SQL> SET ECHO ON
+SQL> -- ERIC AGYEMANG
+SQL> --IT 478 ADVANCED DATABASE PROCESSING
+SQL> --LAB 11
+SQL> 
+SQL> --Create functions for each of the following:
+SQL> --1. R – Runs scored: number of times a player crosses home plate
+SQL> 
+SQL> CREATE OR REPLACE FUNCTION player_stats_r
+  2  (
+  3  first_name_param VARCHAR2,
+  4  last_name_param VARCHAR2
+  5  )
+  6  RETURN NUMBER
+  7  AS RS NUMBER;
+  8  BEGIN
+  9      SELECT R AS plate_Appearance INTO RS from players
+ 10      WHERE first = first_name_param and last = last_name_param;
+ 11      RETURN RS;
+ 12  END;
+ 13  /
+
+Function PLAYER_STATS_R compiled
+
+SQL> 
+SQL> select player_stats_r('Lorenzo','Cain') as runs_scored from dual;
+
+RUNS_SCORED
+-----------
+          4
+
+SQL> --2. BB/K – Walk-to-strikeout ratio: number of bases on balls divided by number of strikeouts
+SQL> CREATE OR REPLACE FUNCTION player_stats_wts
+  2  (
+  3  first_name_param VARCHAR2,
+  4  last_name_param VARCHAR2
+  5  )
+  6  RETURN NUMBER
+  7  AS WTS NUMBER;
+  8  BEGIN
+  9      SELECT BB/SO AS Walk_to_strikeout INTO WTS from players  
+ 10      WHERE first = first_name_param and last = last_name_param;
+ 11      RETURN WTS;
+ 12  END;
+ 13  /
+
+Function PLAYER_STATS_WTS compiled
+
+SQL> 
+SQL> select player_stats_wts('Lorenzo','Cain') as Walk_to_strikeout from dual;
+
+WALK_TO_STRIKEOUT
+-----------------
+                1
+
+SQL> --3. XBH – Extra-base hits: total hits greater than singles (2B + 3B + HR) NOTE: 2B = DOUBLE, 3B = TRIPLE
+SQL> CREATE OR REPLACE FUNCTION player_stats_xbh
+  2  (
+  3  first_name_param VARCHAR2,
+  4  last_name_param VARCHAR2
+  5  )
+  6  RETURN NUMBER
+  7  AS XBH NUMBER;
+  8  BEGIN
+  9      SELECT (DOUBLE + TRIPLE + HR) AS Extra_base INTO XBH from players
+ 10      WHERE first = first_name_param and last = last_name_param;
+ 11      RETURN XBH;
+ 12  END;
+ 13  /
+
+Function PLAYER_STATS_XBH compiled
+
+SQL> SELECT player_stats_xbh('Lorenzo','Cain') as Extra_base from dual;
+
+EXTRA_BASE
+----------
+         2
+
+SQL> --4. TB – Total bases: one for each single, two for each double, three for each triple, and four for each home run [H + 2B + (2 × 3B) + 
+SQL>     --(3 × HR)] or [1B + (2 × 2B) + (3 × 3B) + (4 × HR)] NOTE: 2B = DOUBLE, 3B = TRIPLE
+SQL> 
+SQL> CREATE OR REPLACE FUNCTION player_stats_tb
+  2  (   
+  3  first_name_param VARCHAR2,
+  4  last_name_param VARCHAR2
+  5  )
+  6  RETURN NUMBER
+  7  AS TB NUMBER;
+  8  BEGIN
+  9      SELECT H + DOUBLE + (2 * TRIPLE) + (3 * HR) AS plate_Appearance INTO TB from players
+ 10      WHERE first = first_name_param and last = last_name_param;
+ 11      RETURN TB;
+ 12  END;
+ 13  /
+
+Function PLAYER_STATS_TB compiled
+
+SQL> select player_stats_tb('Lorenzo','Cain') as Total_base from dual;
+
+TOTAL_BASE
+----------
+        10
+
+SQL> --5. TOB – Times on base: times reaching base as a result of hits, walks, and hit-by-pitches (H + BB + HBP)
+SQL> 
+SQL> CREATE OR REPLACE FUNCTION time_on_base
+  2  (
+  3  first_name_param VARCHAR2,
+  4  last_name_param VARCHAR2
+  5  )
+  6  RETURN NUMBER
+  7  AS t_o_base NUMBER;
+  8  BEGIN
+  9      SELECT (H + BB + HBP) INTO t_o_base from players
+ 10      WHERE First = first_name_param and Last = last_name_param;
+ 11      RETURN t_o_base;
+ 12  END;
+ 13  /
+
+Function TIME_ON_BASE compiled
+
+SQL> select time_on_base('Lorenzo','Cain') as time_on_base from dual;
+
+TIME_ON_BASE
+------------
+          12
+

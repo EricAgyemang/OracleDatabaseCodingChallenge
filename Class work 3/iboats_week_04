@@ -1,0 +1,111 @@
+SQL> 
+SQL> SET ECHO ON;
+SQL> ---1
+SQL> SELECT * FROM iships LEFT JOIN iboats ON iships.SUB_ID = iboats.SUB_ID;
+
+SHIP          CO SUB_I SUB_I
+------------- -- ----- -----
+USAT Liberty  US I-166 I-166
+HNLMS K XVI   NL I-166 I-166
+AHS Centaur   AU I-177 I-177
+SS Fingal     NL I-180 I-180
+USS Seadragon US            
+
+SQL> 
+SQL> ---2
+SQL> SELECT * FROM iboats RIGHT JOIN iships ON iboats.SUB_ID = iships.SUB_ID;
+
+SUB_I SHIP          CO SUB_I
+----- ------------- -- -----
+I-166 USAT Liberty  US I-166
+I-166 HNLMS K XVI   NL I-166
+I-177 AHS Centaur   AU I-177
+I-180 SS Fingal     NL I-180
+      USS Seadragon US      
+
+SQL> 
+SQL> --3
+SQL> SELECT * FROM iships FULL JOIN iboats ON iships.SUB_ID = iboats.SUB_ID;
+
+SHIP          CO SUB_I SUB_I
+------------- -- ----- -----
+USAT Liberty  US I-166 I-166
+HNLMS K XVI   NL I-166 I-166
+                       I-176
+AHS Centaur   AU I-177 I-177
+SS Fingal     NL I-180 I-180
+                       I-182
+USS Seadragon US            
+
+7 rows selected. 
+
+SQL> 
+SQL> --4
+SQL> SELECT *
+  2  
+  3  FROM iships, iboats
+  4  
+  5  where iboats.SUB_ID(+) = iships.sub_id;
+
+SHIP          CO SUB_I SUB_I
+------------- -- ----- -----
+USAT Liberty  US I-166 I-166
+HNLMS K XVI   NL I-166 I-166
+AHS Centaur   AU I-177 I-177
+SS Fingal     NL I-180 I-180
+USS Seadragon US            
+
+SQL> 
+SQL> ---5
+SQL> SELECT *
+  2  
+  3  FROM iships, iboats
+  4  
+  5  where iboats.SUB_ID = iships.sub_id(+);
+
+SHIP          CO SUB_I SUB_I
+------------- -- ----- -----
+SS Fingal     NL I-180 I-180
+AHS Centaur   AU I-177 I-177
+HNLMS K XVI   NL I-166 I-166
+USAT Liberty  US I-166 I-166
+                       I-182
+                       I-176
+
+6 rows selected. 
+
+SQL> ---6
+SQL> SELECT * FROM iships RIGHT OUTER JOIN iboats ON iships.SUB_ID = iboats.SUB_ID AND iships.COUNTRY !='US';
+
+SHIP          CO SUB_I SUB_I
+------------- -- ----- -----
+SS Fingal     NL I-180 I-180
+AHS Centaur   AU I-177 I-177
+HNLMS K XVI   NL I-166 I-166
+                       I-182
+                       I-176
+
+SQL> 
+SQL> -----7
+SQL> SELECT iboats.SUB_ID, COUNT(iships.SUB_ID) AS "TOTAL" FROM IBOATS LEFT JOIN ISHIPS ON IBOATS.SUB_ID = ISHIPS.SUB_ID GROUP BY IBOATS.SUB_ID;
+
+SUB_I      TOTAL
+----- ----------
+I-177          1
+I-182          0
+I-176          0
+I-180          1
+I-166          2
+
+SQL> 
+SQL> ---8
+SQL> SELECT subs.SUB_ID, COUNT(iships.SUB_ID) AS "TOTAL" FROM subs LEFT JOIN ISHIPS ON subs.SUB_ID = ISHIPS.SUB_ID GROUP BY subs.SUB_ID;
+
+SUB_I      TOTAL
+----- ----------
+I-177          1
+I-182          0
+I-176          0
+I-180          1
+I-166          2
+

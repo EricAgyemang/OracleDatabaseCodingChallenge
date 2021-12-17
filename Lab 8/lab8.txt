@@ -1,0 +1,212 @@
+SQL> 
+SQL> -- AGYEMANG ERIC
+SQL> 
+SQL> --I 478 ADVANCED DATABASE PROCESSING 
+SQL> 
+SQL> -- LAB 8
+SQL> 
+SQL> --1. List the book title and retail price for all books with a retail price lower than the average retail price of all books sold by Wolf Books.
+SQL> 
+SQL> SELECT  title, retail 
+  2  
+  3  FROM books
+  4  
+  5  where retail <(SELECT AVG(retail) FROM books)
+  6  
+  7  ;
+
+TITLE                              RETAIL
+------------------------------ ----------
+BODYBUILD IN 10 MINUTES A DAY       30.95
+REVENGE OF MICKEY                      22
+COOKING WITH MUSHROOMS              19.95
+HANDCRANKED COMPUTERS                  25
+THE WOK WAY TO COOK                 28.75
+BIG BEAR AND LITTLE DOVE             8.95
+HOW TO GET FASTER PIZZA             29.95
+HOW TO MANAGE THE MANAGER           31.95
+SHORTEST POEMS                      39.95
+
+9 rows selected. 
+
+SQL> 
+SQL> 
+SQL> -- 2. Determine which books cost less than the average cost of other books in the same category.
+SQL> 
+SQL> SELECT title, cost, category 
+  2  
+  3  FROM books b1
+  4  
+  5  WHERE b1.cost <(SELECT AVG(cost)
+  6  
+  7                  FROM books b2
+  8  
+  9                  WHERE b1.category = B2.category);
+
+TITLE                                COST CATEGORY    
+------------------------------ ---------- ------------
+REVENGE OF MICKEY                    14.2 FAMILY LIFE 
+DATABASE IMPLEMENTATION              31.4 COMPUTER    
+COOKING WITH MUSHROOMS               12.5 COOKING     
+HANDCRANKED COMPUTERS                21.8 COMPUTER    
+BIG BEAR AND LITTLE DOVE             5.32 CHILDREN    
+
+SQL> 
+SQL> 
+SQL> --3. Determine which orders were shipped to the same state as order 1014.
+SQL> 
+SQL> SELECT order# 
+  2  
+  3  FROM orders
+  4  
+  5  WHERE ShipState = (SELECT ShipState FROM orders
+  6  
+  7                     WHERE order#=1014)
+  8  AND order#!=1014;
+
+    ORDER#
+----------
+      1007
+
+SQL> 
+SQL> 
+SQL> -- 4. Determine which orders had a higher total amount due than order 1008.
+SQL> 
+SQL> SELECT order#, SUM(quantity*paideach) AS tot FROM orderitems
+  2  
+  3  GROUP BY order#
+  4  
+  5  HAVING SUM(quantity*paideach)>
+  6  
+  7  (SELECT SUM(quantity*paideach)
+  8  
+  9  FROM orderitems 
+ 10  
+ 11  WHERE order#=1008)
+ 12  
+ 13  ORDER BY order#;
+
+    ORDER#        TOT
+---------- ----------
+      1001      117.4
+      1002      111.9
+      1003     106.85
+      1004      170.9
+      1005      39.95
+      1006       54.5
+      1007     335.85
+      1009      41.95
+      1010      55.95
+      1011      85.45
+      1012      166.4
+
+    ORDER#        TOT
+---------- ----------
+      1013      55.95
+      1014         44
+      1016      85.45
+      1018       75.9
+
+15 rows selected. 
+
+SQL> 
+SQL> 
+SQL> --5. Determine which author or authors wrote the books most frequently purchased by customers of Wolf Books.
+SQL> 
+SQL> SELECT fname || ' ' || lname as author
+  2  
+  3  FROM author
+  4  
+  5  join bookauthor
+  6  
+  7  on author.authorid =bookauthor.authorid
+  8  
+  9  WHERE isbn= (SELECT isbn from orderitems
+ 10  
+ 11  GROUP BY isbn
+ 12  
+ 13  HAVING COUNT(*) =(SELECT MAX (COUNT(*))
+ 14  
+ 15  FROM orderitems
+ 16  
+ 17  GROUP BY isbn))
+ 18  
+ 19  ;
+
+AUTHOR               
+---------------------
+JACK BAKER
+
+SQL> 
+SQL> -- 6.  List the title of all books in the same category as books previously purchased by customer 1007. Don't include  books this customer has already purchased.
+SQL> select distinct books.title from books JOIN
+  2  (SELECT title, category FROM books where isbn IN
+  3  (SELECT ISBN FROM orderitems where order# in 
+  4  (SELECT order# from orders  WHERE customer#=1007))) using (category)
+  5  
+  6  MINUS
+  7  
+  8  SELECT title FROM books where isbn IN
+  9  (SELECT ISBN FROM orderitems where order# in 
+ 10  (SELECT order# from orders  WHERE customer#=1007));
+
+TITLE                         
+------------------------------
+BUILDING A CAR WITH TOOTHPICKS
+HANDCRANKED COMPUTERS
+PAINLESS CHILD-REARING
+
+SQL> 
+SQL> 
+SQL> --7. List the shipping city and state for the order that had the longest shipping delay. 
+SQL> SELECT shipcity, shipstate from orders
+  2  where shipdate-orderdate =
+  3                            (select max(shipdate-orderdate) from orders);
+
+SHIPCITY        SH
+--------------- --
+TRENTON         NJ
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --8. Determine which customers placed orders for the least expensive book (in terms of regular retail price) carried by Wolf Books
+SQL> select distinct(customers.customer#), firstname || ' '|| lastname as customername FROM orders
+  2  
+  3  join customers
+  4  on  customers.customer#=orders.customer#
+  5  where order# in (select order# from orderitems where isbn = 
+  6  (select isbn from books where retail = (select min(retail) from books)));
+
+ CUSTOMER# CUSTOMERNAME         
+---------- ---------------------
+      1015 STEVE SCHELL         
+      1007 TAMMY GIANA          
+      1017 BECCA NELSON         
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --9. Determine the number of different customers who have placed an order for books written or cowritten by James Austin.
+SQL> select count(distinct(customer#)) as customers
+  2  from orders join orderitems on orders.order# = orderitems.order#
+  3  where isbn in (select isbn from bookauthor where authorid = (select authorid from author
+  4  where fname || ' '|| lname = 'JAMES AUSTIN'));
+
+ CUSTOMERS
+----------
+         5
+
+SQL> 
+SQL> 
+SQL> --10. Determine which books were published by the publisher of The Wok Way to Cook.
+SQL> select title from books where pubid  = 
+  2  (select pubid from books where title = 'THE WOK WAY TO COOK')
+
+TITLE                         
+------------------------------
+BODYBUILD IN 10 MINUTES A DAY
+COOKING WITH MUSHROOMS
+THE WOK WAY TO COOK
+HOW TO GET FASTER PIZZA
+

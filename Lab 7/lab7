@@ -1,0 +1,364 @@
+SQL> -- drop tables if exists. 
+SQL> 
+SQL> DROP TABLE Reserves;
+
+Table RESERVES dropped.
+
+SQL> DROP TABLE Sailors;
+
+Table SAILORS dropped.
+
+SQL> drop table Boats;
+
+Table BOATS dropped.
+
+SQL> 
+SQL> -- create tables  
+SQL> 
+SQL> create table Sailors( 
+  2         sid       int not null constraint sailors_pk primary key,        
+  3         sname     varchar2(20),        
+  4         rating    int,        
+  5         age       decimal(4,1) 
+  6  );
+
+Table SAILORS created.
+
+SQL> 
+SQL> create table Boats( 
+  2         bid       int not null constraint boat_pk primary key,        
+  3         bname     varchar2(20),        
+  4         color     varchar2(20) 
+  5          );
+
+Table BOATS created.
+
+SQL> 
+SQL> create table Reserves(        
+  2          sid       int,        
+  3          bid       int,        
+  4          day       date,        
+  5          primary key (sid,bid,day), 
+  6          foreign key (sid) references Sailors(sid) ON DELETE CASCADE, 
+  7          foreign key (bid) references Boats(bid)   ON DELETE CASCADE  
+  8  );
+
+Table RESERVES created.
+
+SQL> 
+SQL> -- initialize the tables  
+SQL> 
+SQL> insert into Sailors (sid,sname,rating,age) values(22,'Dustin',7,45.0);
+
+1 row inserted.
+
+SQL> insert into Sailors (sid,sname,rating,age) values(29,'Brutus',1,33.0);
+
+1 row inserted.
+
+SQL> insert into Sailors (sid,sname,rating,age) values(31,'Lubber',8,55.5);
+
+1 row inserted.
+
+SQL> insert into Sailors (sid,sname,rating,age) values(32,'Andy',8,25.5);
+
+1 row inserted.
+
+SQL> insert into Sailors (sid,sname,rating,age) values(58,'Rusty',10,35.0);
+
+1 row inserted.
+
+SQL> insert into Sailors (sid,sname,rating,age) values(64,'Horataio',7,35.0);
+
+1 row inserted.
+
+SQL> insert into Sailors (sid,sname,rating,age) values(71,'Zorba',10,16.0);
+
+1 row inserted.
+
+SQL> insert into Sailors (sid,sname,rating,age) values(74,'Horataio',9,35.0);
+
+1 row inserted.
+
+SQL> insert into Sailors (sid,sname,rating,age) values(85,'Art',3,25.5);
+
+1 row inserted.
+
+SQL> insert into Sailors (sid,sname,rating,age) values(95,'Bob',3,63.5);
+
+1 row inserted.
+
+SQL> 
+SQL> insert into Boats (bid,bname,color) values(101,'Interlake','blue');
+
+1 row inserted.
+
+SQL> insert into Boats (bid,bname,color) values(102,'Interlake','red');
+
+1 row inserted.
+
+SQL> insert into Boats (bid,bname,color) values(103,'Clipper','green');
+
+1 row inserted.
+
+SQL> insert into Boats (bid,bname,color) values(104,'Marine','red');
+
+1 row inserted.
+
+SQL> 
+SQL> insert into Reserves(sid,bid,day) values(22,101,'10-OCT-20');
+
+1 row inserted.
+
+SQL> insert into Reserves(sid,bid,day) values(22,102,'10-OCT-20');
+
+1 row inserted.
+
+SQL> insert into Reserves(sid,bid,day) values(22,103,'8-OCT-20');
+
+1 row inserted.
+
+SQL> insert into Reserves(sid,bid,day) values(32,104,'7-OCT-20');
+
+1 row inserted.
+
+SQL> insert into Reserves(sid,bid,day) values(31,102,'10-Nov-20');
+
+1 row inserted.
+
+SQL> insert into Reserves(sid,bid,day) values(31,103,'6-NOV-20');
+
+1 row inserted.
+
+SQL> insert into Reserves(sid,bid,day) values(58,104,'12-NOV-20');
+
+1 row inserted.
+
+SQL> insert into Reserves(sid,bid,day) values(64,101,'5-SEP-20');
+
+1 row inserted.
+
+SQL> insert into Reserves(sid,bid,day) values(64,102,'8-SEP-20');
+
+1 row inserted.
+
+SQL> insert into Reserves(sid,bid,day) values(74,103,'8-SEP-20');
+
+1 row inserted.
+
+SQL> 
+SQL> Commit;
+
+Commit complete.
+
+SQL> 
+SQL> 
+SQL> SET ECHO ON;
+SQL> -- ERIC AGYEMANG
+SQL> -- IT 478 ADVANCED DATABASE PROCESSING
+SQL> --LAB #7
+SQL> --1. Find the names of sailors and the number of boats they have reserved (even if the number is zero) use a LEFT JOIN
+SQL> SELECT sname, COUNT(*) AS Number_of_Boats_Reserved
+  2  FROM SAILORS s
+  3  LEFT JOIN RESERVES r 
+  4       ON s.SID = r.SID
+  5  LEFT JOIN BOATS b ON r.BID = b.BID
+  6  GROUP BY sname;
+
+SNAME                NUMBER_OF_BOATS_RESERVED
+-------------------- ------------------------
+Rusty                                       1
+Lubber                                      2
+Andy                                        1
+Art                                         1
+Brutus                                      1
+Bob                                         1
+Dustin                                      3
+Horataio                                    3
+Zorba                                       1
+
+9 rows selected. 
+
+SQL> 
+SQL> 
+SQL> --2. Find the names of sailors who have reserved a red but not a blue boat (use MINUS)
+SQL> SELECT sname
+  2  FROM SAILORS s JOIN RESERVES r ON s.SID = r.SID
+  3  JOIN BOATS b ON r.BID = b.BID
+  4  WHERE COLOR = 'red'
+  5  MINUS
+  6  SELECT sname
+  7  FROM SAILORS s JOIN RESERVES r ON s.SID = r.SID
+  8  JOIN BOATS b ON r.BID = b.BID
+  9  WHERE COLOR = 'blue';
+
+SNAME               
+--------------------
+Andy
+Lubber
+Rusty
+
+SQL> 
+SQL> 
+SQL> --3. Find the names of sailors who have reserved all boats (use one or more INTERSECTS)
+SQL> SELECT sname
+  2  FROM SAILORS s JOIN RESERVES r ON s.SID = r.SID
+  3  JOIN BOATS b ON r.BID = b.BID
+  4  WHERE COLOR = 'red'
+  5  INTERSECT
+  6  SELECT sname
+  7  FROM SAILORS s JOIN RESERVES r ON s.SID = r.SID
+  8  JOIN BOATS b ON r.BID = b.BID
+  9  WHERE COLOR = 'blue'
+ 10  INTERSECT
+ 11  SELECT sname
+ 12  FROM SAILORS s JOIN RESERVES r ON s.SID = r.SID
+ 13  JOIN BOATS b ON r.BID = b.BID
+ 14  WHERE COLOR = 'green';
+
+SNAME               
+--------------------
+Dustin
+Horataio
+
+SQL> 
+SQL> 
+SQL> --4. Find all sids of sailors who have a rating of 10 or have reserved boat 104 (use a UNION)
+SQL> SELECT sid
+  2  FROM SAILORS 
+  3  WHERE RATING = 10
+  4  UNION 
+  5  SELECT sid
+  6  FROM RESERVES
+  7  WHERE BID = 104;
+
+       SID
+----------
+        32
+        58
+        71
+
+SQL> 
+SQL> --5. Find all sids of sailors who have a rating of 10 and have reserved boat 104 (use an INTERSECT)
+SQL> SELECT sid
+  2  FROM SAILORS 
+  3  WHERE RATING = 10
+  4  INTERSECT
+  5  SELECT sid
+  6  FROM RESERVES
+  7  WHERE BID = 104;
+
+       SID
+----------
+        58
+
+SQL> 
+SQL> 
+SQL> --6. Count the number of different sailor names
+SQL> SELECT COUNT(sname) AS Number_of_Different_Sailors
+  2  FROM(
+  3  (SELECT DISTINCT sname FROM SAILORS));
+
+NUMBER_OF_DIFFERENT_SAILORS
+---------------------------
+                          9
+
+SQL> 
+SQL> 
+SQL> --7. Find the names of all boats reserved by Dustin  MINUS the boats reserved by Horataio (use MINUS).
+SQL> SELECT bname, bid
+  2  FROM SAILORS JOIN RESERVES USING(sid)
+  3               JOIN BOATS USING(bid)
+  4               WHERE sname = 'Dustin'
+  5  MINUS
+  6  
+  7  SELECT bname, bid
+  8  FROM SAILORS JOIN RESERVES USING(sid)
+  9               JOIN BOATS USING(bid)
+ 10  WHERE sname = 'Horataio';
+no rows selected
+SQL> 
+SQL> 
+SQL> --8. Find the dates and boat name when both Dustin and Horataio reserved the same boat on the same day.
+SQL> SELECT bname, bid, day
+  2  FROM SAILORS JOIN RESERVES USING(sid)
+  3               JOIN BOATS USING(bid)
+  4               WHERE sname = 'Dustin'
+  5  INTERSECT
+  6  
+  7  SELECT bname, bid, day
+  8  FROM SAILORS JOIN RESERVES USING(sid)
+  9               JOIN BOATS USING(bid)
+ 10  WHERE sname = 'Horataio';
+no rows selected
+SQL> 
+SQL> 
+SQL> --9. Find the dates and boat name when Horataio rented a boat on a day when Dustin did not reserve a boat.
+SQL> 
+SQL> SELECT bname, day AS dates
+  2  FROM SAILORS JOIN RESERVES USING(sid)
+  3               JOIN BOATS USING(bid)
+  4               WHERE sname = 'Horataio'
+  5  MINUS
+  6  
+  7  SELECT bname, day AS dates
+  8  FROM SAILORS JOIN RESERVES USING(sid)
+  9               JOIN BOATS USING(bid)
+ 10  WHERE sname = 'Dustin';
+
+BNAME                DATES    
+-------------------- ---------
+Clipper              08-SEP-20
+Interlake            05-SEP-20
+Interlake            08-SEP-20
+
+SQL> 
+SQL> 
+SQL> --10. Find the names of all sailors who have never reserved a boat use a RIGHT JOIN.
+SQL> SELECT S.sname
+  2  FROM SAILORS S
+  3  WHERE S.sid NOT IN(
+  4  SELECT R.sid 
+  5  FROM SAILORS S RIGHT JOIN RESERVES R
+  6  ON S.sid = R.sid
+  7               RIGHT JOIN BOATS B
+  8               ON R.bid =B.bid);
+
+SNAME               
+--------------------
+Brutus
+Zorba
+Art
+Bob
+
+SQL> 
+SQL> 
+SQL> --11. Join all three tables using FULL JOINS. 
+SQL> SELECT * 
+  2  FROM SAILORS s FULL JOIN RESERVES r
+  3  ON s.sid = r.sid
+  4  FULL JOIN BOATS b
+  5  ON r.bid = b.bid;
+
+       SID SNAME                    RATING        AGE        SID        BID DAY              BID BNAME                COLOR               
+---------- -------------------- ---------- ---------- ---------- ---------- --------- ---------- -------------------- --------------------
+        22 Dustin                        7         45         22        101 10-OCT-20        101 Interlake            blue                
+        22 Dustin                        7         45         22        102 10-OCT-20        102 Interlake            red                 
+        22 Dustin                        7         45         22        103 08-OCT-20        103 Clipper              green               
+        31 Lubber                        8       55.5         31        102 10-NOV-20        102 Interlake            red                 
+        31 Lubber                        8       55.5         31        103 06-NOV-20        103 Clipper              green               
+        32 Andy                          8       25.5         32        104 07-OCT-20        104 Marine               red                 
+        58 Rusty                        10         35         58        104 12-NOV-20        104 Marine               red                 
+        64 Horataio                      7         35         64        101 05-SEP-20        101 Interlake            blue                
+        64 Horataio                      7         35         64        102 08-SEP-20        102 Interlake            red                 
+        74 Horataio                      9         35         74        103 08-SEP-20        103 Clipper              green               
+        71 Zorba                        10         16                                                                                     
+
+       SID SNAME                    RATING        AGE        SID        BID DAY              BID BNAME                COLOR               
+---------- -------------------- ---------- ---------- ---------- ---------- --------- ---------- -------------------- --------------------
+        85 Art                           3       25.5                                                                                     
+        29 Brutus                        1         33                                                                                     
+        95 Bob                           3       63.5                                                                                     
+
+14 rows selected. 
+

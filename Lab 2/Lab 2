@@ -1,0 +1,150 @@
+SQL> --ERIC AGYEMANG
+SQL> --IT 478: ADVAANCED DATABASE MANAGEMENT
+SQL> --LAB 2
+SQL> SHOW PAGESIZE;
+pagesize 25
+SQL> SET PAGESIZE 25;
+SQL> 
+SQL> --QUESTION 1
+SQL> SET ECHO ON;
+SQL> 
+SQL> SELECT *
+  2  FROM jrwolf.sharkattacks
+  3  WHERE fatal = 'Y' AND country = 'USA'
+  4  ORDER BY year DESC;
+
+CASE                            YEAR TYPE            COUNTRY                                            ACTIVITY                  S        AGE F
+------------------------- ---------- --------------- -------------------------------------------------- ------------------------- - ---------- -
+2015.04.29                      2015 Unprovoked      USA                                                Snorkeling                F         65 Y
+2013.12.02                      2013 Unprovoked      USA                                                Kakaying                  M         57 Y
+2013.08.14                      2013 Unprovoked      USA                                                Snorkeling                F         20 Y
+2012.10.23                      2012 Unprovoked      USA                                                Surfing                   M         39 Y
+2010.02.03                      2010 Unprovoked      USA                                                Kite Boarding             M         38 Y
+2010.10.22                      2010 Unprovoked      USA                                                Body boarding             M         19 Y
+2008.04.25                      2008 Unprovoked      USA                                                Swimming                  M         66 Y
+2005.06.25                      2005 Unprovoked      USA                                                Swimming                  F         14 Y
+2005.09.11                      2005 Unprovoked      USA                                                Surfing                   M         18 Y
+2004.08.15                      2004 Unprovoked      USA                                                Scuba Diving              M         50 Y
+2004.04.07                      2004 Unprovoked      USA                                                Surfing                   M         57 Y
+2003.08.19                      2003 Unprovoked      USA                                                Swimming                  F         50 Y
+2002.07.09.b                    2002 Provoked        USA                                                Fishing                   M         41 Y
+2001.09.01                      2001 Unprovoked      USA                                                Swimming                  M         10 Y
+2001.09.03.b                    2001 Unprovoked      USA                                                Swimming                  M         28 Y
+2000.08.30                      2000 Unprovoked      USA                                                Wading                    M         69 Y
+
+16 rows selected. 
+
+SQL> 
+SQL> --QUESTION 2
+SQL> SELECT (8+2)*7
+  2  FROM DUAL;
+
+   (8+2)*7
+----------
+        70
+
+SQL> 
+SQL> 
+SQL> --QUESTION 3
+SQL> SELECT country, year
+  2  FROM jrwolf.sharkattacks
+  3  WHERE type = 'Provoked' AND year BETWEEN '2002' AND '2005'
+  4  ORDER BY country;
+
+COUNTRY                                                  YEAR
+-------------------------------------------------- ----------
+AUSTRALIA                                                2005
+AUSTRALIA                                                2002
+BAHAMAS                                                  2004
+CHINA                                                    2005
+SOUTH AFRICA                                             2005
+UNITED KINGDOM                                           2002
+USA                                                      2005
+USA                                                      2002
+USA                                                      2002
+USA                                                      2003
+USA                                                      2003
+USA                                                      2002
+USA                                                      2002
+USA                                                      2003
+USA                                                      2005
+
+15 rows selected. 
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --QUESTION 4
+SQL> SELECT *
+  2  FROM jrwolf.sharkattacks
+  3  WHERE activity = 'Swimming' AND country IN ('CUBA', 'SOUTH AFRICA');
+
+CASE                            YEAR TYPE            COUNTRY                                            ACTIVITY                  S        AGE F
+------------------------- ---------- --------------- -------------------------------------------------- ------------------------- - ---------- -
+2005.01.20                      2005 Unprovoked      CUBA                                               Swimming                  M         19 N
+2015.01.23                      2015 Unprovoked      SOUTH AFRICA                                       Swimming                  M         24 N
+2006.08.13                      2006 Unprovoked      SOUTH AFRICA                                       Swimming                  M         24 N
+2001.01.24                      2001 Unprovoked      CUBA                                               Swimming                  F         55 N
+2004.11.15                      2004 Unprovoked      SOUTH AFRICA                                       Swimming                  F         77 Y
+2012.12.25                      2012 Unprovoked      SOUTH AFRICA                                       Swimming                  M         20 Y
+2009.01.24.a                    2009 Unprovoked      SOUTH AFRICA                                       Swimming                  M         25 Y
+2012.01.15                      2012 Unprovoked      SOUTH AFRICA                                       Swimming                  M         25 Y
+2010.09.21                      2010 Unprovoked      SOUTH AFRICA                                       Swimming                  M         29 Y
+2014.03.22.b                    2014 Unprovoked      SOUTH AFRICA                                       Swimming                  M         66 Y
+2013.03.03                      2013 Unprovoked      SOUTH AFRICA                                       Swimming                  M         39 N
+2011.09.28.a                    2011 Unprovoked      SOUTH AFRICA                                       Swimming                  M         43 N
+
+12 rows selected. 
+
+SQL> 
+SQL> 
+SQL> --QUESTION 5
+SQL> SELECT *
+  2  FROM jrwolf.sharkattacks
+  3  WHERE activity = 'Kite Boarding' AND country NOT IN ('USA');
+
+CASE                            YEAR TYPE            COUNTRY                                            ACTIVITY                  S        AGE F
+------------------------- ---------- --------------- -------------------------------------------------- ------------------------- - ---------- -
+2010.10.23.a                    2010 Unprovoked      AUSTRALIA                                          Kite Boarding             M         14 N
+2014.02.20                      2014 Unprovoked      FRENCH POLYNESIA                                   Kite Boarding             M         21 N
+2016.02.22                      2016 Unprovoked      NEW CALEDONIA                                      Kite Boarding             M         21 N
+2011.05.21.a                    2011 Unprovoked      NEW CALEDONIA                                      Kite Boarding             M         15 Y
+2016.09.06                      2016 Unprovoked      NEW CALEDONIA                                      Kite Boarding             M         50 Y
+2011.09.11.a                    2011 Unprovoked      PAPUA NEW GUINEA                                   Kite Boarding             M         30 N
+2014.03.18.c                    2014 Unprovoked      NEW CALEDONIA                                      Kite Boarding             M         42 N
+2013.04.10                      2013 Unprovoked      FRENCH POLYNESIA                                   Kite Boarding             M         53 N
+
+8 rows selected. 
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --QUESTION 6
+SQL> SELECT *
+  2  FROM jrwolf.sharkattacks
+  3  WHERE (country = 'MEXICO' OR country = 'BAHAMAS') AND activity LIKE '%ishing';
+
+CASE                            YEAR TYPE            COUNTRY                                            ACTIVITY                  S        AGE F
+------------------------- ---------- --------------- -------------------------------------------------- ------------------------- - ---------- -
+2009.07.31                      2009 Unprovoked      BAHAMAS                                            Spearfishing              M         14 N
+2006.06.24                      2006 Unprovoked      BAHAMAS                                            Spearfishing              M         25 N
+2011.01.28                      2011 Provoked        MEXICO                                             Fishing                   M         25 N
+2015.07.04.b                    2015 Unprovoked      BAHAMAS                                            Spearfishing              F         23 N
+2007.07.10                      2007 Unprovoked      BAHAMAS                                            Spearfishing              F         48 N
+2007.09.28                      2007 Unprovoked      BAHAMAS                                            Spearfishing              F         48 N
+2013.11.10                      2013 Provoked        BAHAMAS                                            Fishing                   M         77 N
+2015.12.11                      2015 Unprovoked      BAHAMAS                                            Fishing                   M         26 N
+2017.07.07.R                    2017 Provoked        MEXICO                                             Fishing                   M         32 N
+2015.03.10                      2015 Provoked        MEXICO                                             Fishing                   M         36 N
+2003.07.04                      2003 Unprovoked      BAHAMAS                                            Spearfishing              M         39 N
+2013.07.29.c                    2013 Unprovoked      BAHAMAS                                            Spearfishing              M         40 N
+2008.06.28.b                    2008 Unprovoked      BAHAMAS                                            Spearfishing              M         42 N
+2014.06.25                      2014 Unprovoked      BAHAMAS                                            Spearfishing              M         42 N
+2001.08.16                      2001 Unprovoked      BAHAMAS                                            Spearfishing              M         43 N
+2001.08.31                      2001 Unprovoked      BAHAMAS                                            Spearfishing              M         44 N
+2009.05.06                      2009 Provoked        BAHAMAS                                            Spearfishing              M         48 N
+2013.03.21                      2013 Unprovoked      BAHAMAS                                            Fishing                   M         50 N
+2003.07.09                      2003 Unprovoked      BAHAMAS                                            Spearfishing              M         58 N
+
+19 rows selected. 
+

@@ -1,0 +1,210 @@
+SQL> 
+SQL> -- ERIC AGYEMANG
+SQL> -- IT 478 ADVANCED DATABASE MANAGEMENT
+SQL> -- LAB 9
+SQL> 
+SQL> drop Table CH10_SUBJECTS;
+
+Table CH10_SUBJECTS dropped.
+
+SQL> drop Table CH10_SUPPLIERS;
+
+Table CH10_SUPPLIERS dropped.
+
+SQL> 
+SQL> SET ECHO ON;
+SQL> --1. a. Use SQL to create the tables ch10_suppliers and ch10_subjects. Once created, the two tables should have the same column names, null? and type listed below. 
+SQL> --In addition, SUBJECT_ID, SUBJECT_NAME and SUPPLIER_ID should all be created with the UNIQUE constraint. 
+SQL> CREATE TABLE ch10_subjects(
+  2  SUBJECT_ID NUMBER NOT NULL UNIQUE,
+  3  SUBJECT_NAME VARCHAR(30) NOT NULL UNIQUE,
+  4  DESCRIPTION VARCHAR2(4000)
+  5  );
+
+Table CH10_SUBJECTS created.
+
+SQL> 
+SQL> CREATE TABLE ch10_suppliers(
+  2  SUPPLIER_ID NUMBER(10) NOT NULL unique,  
+  3  SUPPLIER_NAME VARCHAR2(50) NOT NULL,  
+  4  ADDRESS VARCHAR2(50), 
+  5  CITY VARCHAR2(50), 
+  6  STATE VARCHAR2(25), 
+  7  ZIP_CODE VARCHAR2(10) 
+  8  );
+
+Table CH10_SUPPLIERS created.
+
+SQL> 
+SQL> --b. Run DESC (describe) to show that the tables were created correctly.
+SQL> DESC ch10_suppliers;
+Name          Null?    Type         
+------------- -------- ------------ 
+SUPPLIER_ID   NOT NULL NUMBER(10)   
+SUPPLIER_NAME NOT NULL VARCHAR2(50) 
+ADDRESS                VARCHAR2(50) 
+CITY                   VARCHAR2(50) 
+STATE                  VARCHAR2(25) 
+ZIP_CODE               VARCHAR2(10) 
+SQL> DESC ch10_subjects;
+Name         Null?    Type           
+------------ -------- -------------- 
+SUBJECT_ID   NOT NULL NUMBER         
+SUBJECT_NAME NOT NULL VARCHAR2(30)   
+DESCRIPTION           VARCHAR2(4000) 
+SQL> 
+SQL> --2. The DICTIONARY table has two columns TABLE_NAME and COMMENTS.
+SQL>   --a. Find the TABLE_NAME and COMMENTS of all tables listed in the DICTIONARY table that contain USER_TAB in the table name. (use LIKE) (SHOULD GET 20 ROWS)
+SQL> COLUMN TABLE_NAME FORMAT A25
+SQL> COLUMN COMMENTS FORMAT A70 WORD_WRAPPED
+SQL> SELECT * FROM DICTIONARY WHERE table_name LIKE'%USER_TAB%';
+
+TABLE_NAME                COMMENTS                                                              
+------------------------- ----------------------------------------------------------------------
+USER_TABLES               Description of the user's own relational tables                       
+USER_TABLESPACES          Description of accessible tablespaces                                 
+USER_TAB_COLS             Columns of user's tables, views and clusters                          
+USER_TAB_COLS_V$                                                                                
+USER_TAB_COLUMNS          Columns of user's tables, views and clusters                          
+USER_TAB_COL_STATISTICS   Columns of user's tables, views and clusters                          
+USER_TAB_COMMENTS         Comments on the tables and views owned by the user                    
+USER_TAB_HISTGRM_PENDING_ Pending statistics of tables, partitions, and subpartitions           
+STATS                                                                                           
+
+USER_TAB_HISTOGRAMS       Histograms on columns of user's tables                                
+
+TABLE_NAME                COMMENTS                                                              
+------------------------- ----------------------------------------------------------------------
+USER_TAB_IDENTITY_COLS    Describes all table identity columns                                  
+USER_TAB_MODIFICATIONS    Information regarding modifications to tables                         
+USER_TAB_PARTITIONS                                                                             
+USER_TAB_PENDING_STATS    History of table statistics modifications                             
+USER_TAB_PRIVS            Grants on objects for which the user is the owner, grantor or grantee 
+USER_TAB_PRIVS_MADE       All grants on objects owned by the user                               
+USER_TAB_PRIVS_RECD       Grants on objects for which the user is the grantee                   
+USER_TAB_STATISTICS       Optimizer statistics of the user's own tables                         
+USER_TAB_STATS_HISTORY    History of table statistics modifications                             
+USER_TAB_STAT_PREFS       Statistics preferences for tables                                     
+USER_TAB_SUBPARTITIONS                                                                          
+
+20 rows selected. 
+
+SQL> 
+SQL>   --b. Find the TABLE_NAME and COMMENTS of all tables listed in the DICTIONARY table that contain CONSTRAINT in the table name. (use LIKE) (SHOULD GET 4 ROWS)
+SQL> COLUMN TABLE_NAME FORMAT A25
+SQL> COLUMN COMMENTS FORMAT A70 WORD_WRAPPED
+SQL> SELECT * FROM DICTIONARY WHERE table_name LIKE '%CONSTRAINT%';
+
+TABLE_NAME                COMMENTS                                                              
+------------------------- ----------------------------------------------------------------------
+ALL_CONSTRAINTS           Constraint definitions on accessible tables                           
+USER_CONSTRAINTS          Constraint definitions on user's own tables                           
+USER_XS_COLUMN_CONSTRAINT All the Real Application Security column constraints owned by the     
+S                         current user                                                          
+
+USER_XS_REALM_CONSTRAINTS All the Real Application Security realms owned by the current user    
+
+SQL> 
+SQL>   --c. Find the TABLE_NAME and COMMENTS of all tables listed in the DICTIONARY table that contain USER_IND in the table name. (use LIKE) (SHOULD GET 11 ROWS)
+SQL> COLUMN TABLE_NAME FORMAT A25
+SQL> COLUMN COMMENTS FORMAT A70 WORD_WRAPPED
+SQL> SELECT * FROM DICTIONARY WHERE table_name LIKE '%USER_IND%';
+
+TABLE_NAME                COMMENTS                                                              
+------------------------- ----------------------------------------------------------------------
+USER_INDEXES              Description of the user's own indexes                                 
+USER_INDEXTYPES           All user indextypes                                                   
+USER_INDEXTYPE_ARRAYTYPES All array types specified by the indextype                            
+USER_INDEXTYPE_COMMENTS   Comments for user-defined indextypes                                  
+USER_INDEXTYPE_OPERATORS  All user indextype operators                                          
+USER_IND_COLUMNS          COLUMNs comprising user's INDEXes and INDEXes on user's TABLES        
+USER_IND_EXPRESSIONS      Functional index expressions in user's indexes and indexes on user's  
+                          tables                                                                
+
+USER_IND_PARTITIONS                                                                             
+USER_IND_PENDING_STATS    Pending statistics of tables, partitions, and subpartitions           
+
+TABLE_NAME                COMMENTS                                                              
+------------------------- ----------------------------------------------------------------------
+USER_IND_STATISTICS       Optimizer statistics for user's own indexes                           
+USER_IND_SUBPARTITIONS                                                                          
+
+11 rows selected. 
+
+SQL> 
+SQL> --3. We are going to explore the contents of 3 of the tables you found in 2 (a, b & c). 
+SQL>   --a. Find TABLE_NAME, OWNER, CONSTRAINT_NAME, CONSTRAINT_TYPE, LAST_CHANGE and SEARCH_CONDITION of the tables you created today FROM the table ALL_CONSTRAINTS. 
+SQL>   --HINT: use WHERE table_name LIKE 'CH10_%'
+SQL> COLUMN OWNER FORMAT A20
+SQL> COLUMN CONSTRAINT_NAME FORMAT A20
+SQL> COLUMN CONSTRAINT_TYPE FORMAT A20
+SQL> COLUMN LAST_CHANGE FORMAT A20
+SQL> COLUMN SEARCH_CONDITION FORMAT A30 
+SQL> 
+SQL> 
+SQL> SELECT TABLE_NAME, OWNER,CONSTRAINT_NAME,CONSTRAINT_TYPE,LAST_CHANGE,SEARCH_CONDITION
+  2  FROM ALL_CONSTRAINTS
+  3  WHERE TABLE_NAME LIKE'%CH10_%'
+  4  ORDER BY OWNER;
+
+TABLE_NAME                OWNER                CONSTRAINT_NAME      CONSTRAINT_TYPE      LAST_CHANGE          SEARCH_CONDITION              
+------------------------- -------------------- -------------------- -------------------- -------------------- ------------------------------
+CH10_SUBJECTS             IT47801              SYS_C00645805        U                    26-OCT-21                                          
+CH10_SUBJECTS             IT47801              SYS_C00645804        U                    26-OCT-21                                          
+CH10_SUBJECTS             IT47801              SYS_C00645803        C                    26-OCT-21            "SUBJECT_NAME" IS NOT NULL    
+CH10_SUPPLIERS            IT47801              SYS_C00645806        C                    26-OCT-21            "SUPPLIER_ID" IS NOT NULL     
+CH10_SUPPLIERS            IT47801              SYS_C00645808        U                    26-OCT-21                                          
+CH10_SUPPLIERS            IT47801              SYS_C00645807        C                    26-OCT-21            "SUPPLIER_NAME" IS NOT NULL   
+CH10_SUBJECTS             IT47801              SYS_C00645802        C                    26-OCT-21            "SUBJECT_ID" IS NOT NULL      
+
+7 rows selected. 
+
+SQL> 
+SQL> 
+SQL>  --b. Find TABLE_NAME, COLUMN_NAME, DATA_TYPE of the tables you created today FROM the table USER_TAB_COLS. See hint above.
+SQL> 
+SQL> 
+SQL> COLUMN TABLE_NAME FORMAT A20
+SQL> COLUMN COLUMN_NAME FORMAT A20
+SQL> COLUMN DATA_TYPE FORMAT A20
+SQL> SELECT TABLE_NAME, COLUMN_NAME,DATA_TYPE FROM ALL_TAB_COLS
+  2  WHERE TABLE_NAME LIKE 'CH10_%'
+  3  ORDER BY OWNER;
+
+TABLE_NAME           COLUMN_NAME          DATA_TYPE           
+-------------------- -------------------- --------------------
+CH10_SUPPLIERS       ZIP_CODE             VARCHAR2            
+CH10_SUPPLIERS       STATE                VARCHAR2            
+CH10_SUPPLIERS       CITY                 VARCHAR2            
+CH10_SUPPLIERS       ADDRESS              VARCHAR2            
+CH10_SUBJECTS        SUBJECT_ID           NUMBER              
+CH10_SUPPLIERS       SUPPLIER_ID          NUMBER              
+CH10_SUBJECTS        DESCRIPTION          VARCHAR2            
+CH10_SUBJECTS        SUBJECT_NAME         VARCHAR2            
+CH10_SUPPLIERS       SUPPLIER_NAME        VARCHAR2            
+
+9 rows selected. 
+
+SQL> 
+SQL> 
+SQL> --3C. Find INDEX_NAME, TABLE_NAME, COLUMN_NAME and DESCEND of the tables you created today FROM the table USER_IND_COLUMNS. See hint above.
+SQL> COLUMN INDEX_NAME FORMAT A20
+SQL> COLUMN TABLE_NAME FORMAT A20
+SQL> COLUMN COLUMN_NAME FORMAT A20
+SQL> COLUMN DESCEND FORMAT A20
+SQL> 
+SQL> SELECT 
+  2  INDEX_NAME,
+  3  TABLE_NAME,
+  4  COLUMN_NAME,
+  5  DESCEND
+  6  FROM USER_IND_COLUMNS
+  7  WHERE TABLE_NAME LIKE 'CH10_%'
+  8  order by table_name;
+
+INDEX_NAME           TABLE_NAME           COLUMN_NAME          DESCEND             
+-------------------- -------------------- -------------------- --------------------
+SYS_C00645804        CH10_SUBJECTS        SUBJECT_ID           ASC                 
+SYS_C00645805        CH10_SUBJECTS        SUBJECT_NAME         ASC                 
+SYS_C00645808        CH10_SUPPLIERS       SUPPLIER_ID          ASC                 
+

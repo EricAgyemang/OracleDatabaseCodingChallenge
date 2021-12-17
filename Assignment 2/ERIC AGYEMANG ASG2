@@ -1,0 +1,353 @@
+SQL> SET ECHO ON;
+SQL> 
+SQL> -- ERIC AGYEMANG
+SQL> --IT 478 ADVANCED DATABASE PROCESING
+SQL> -- HOMEWORK #2
+SQL> 
+SQL> 
+SQL> --1: Load the data
+SQL> 
+SQL> 
+SQL> --DDL For HW#2 --
+SQL> 
+SQL> DROP TABLE PLAYERS;
+
+Table PLAYERS dropped.
+
+SQL> DROP TABLE TEAMS;
+
+Table TEAMS dropped.
+
+SQL> 
+SQL> CREATE TABLE Players
+  2      (First varchar2(9), Last varchar2(10), G int, AB int, H int, DOUBLE int, TRIPLE int, HR int, R int, RBI int, BB int, SO int, SB int, Team int)
+  3  ;
+
+Table PLAYERS created.
+
+SQL> 
+SQL> INSERT ALL 
+  2      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+  3           VALUES ('Norichika', 'Aoki', 6, 14, 1, 0, 0, 0, 1, 1, 2, 2, 0, 1)
+  4      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+  5           VALUES ('Billy', 'Butler', 5, 15, 5, 1, 0, 0, 1, 3, 1, 1, 0, 1)
+  6      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+  7           VALUES ('Lorenzo', 'Cain', 7, 26, 8, 2, 0, 0, 4, 4, 3, 3, 0, 1)
+  8      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+  9           VALUES ('Tim', 'Collins', 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
+ 10      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 11           VALUES ('Wade', 'Davis', 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
+ 12      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 13           VALUES ('Danny', 'Duffy', 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
+ 14      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 15           VALUES ('Jarrod', 'Dyson', 5, 10, 2, 0, 0, 0, 0, 0, 1, 2, 0, 1)
+ 16      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 17           VALUES ('Alcides', 'Escobar', 7, 29, 9, 3, 0, 0, 3, 2, 0, 5, 0, 1)
+ 18      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 19           VALUES ('Brandon', 'Finnegan', 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
+ 20      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 21           VALUES ('Jason', 'Frasor', 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
+ 22      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 23           VALUES ('Alex', 'Gordon', 7, 27, 5, 3, 0, 0, 4, 2, 0, 5, 1, 1)
+ 24      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 25           VALUES ('Terrance', 'Gore', 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+ 26      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 27           VALUES ('Jeremy', 'Guthrie', 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
+ 28      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 29           VALUES ('Kelvin', 'Herrera', 4, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1)
+ 30      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 31           VALUES ('Greg', 'Holland', 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
+ 32      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 33           VALUES ('Eric', 'Hosmer', 7, 28, 7, 2, 0, 0, 3, 4, 2, 8, 0, 1)
+ 34      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 35           VALUES ('Omar', 'Infante', 7, 22, 7, 3, 0, 1, 4, 5, 1, 6, 0, 1)
+ 36      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 37           VALUES ('Mike', 'Moustakas', 7, 23, 5, 2, 0, 1, 3, 2, 1, 3, 0, 1)
+ 38      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 39           VALUES ('Jayson', 'Nix', 2, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1)
+ 40      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 41           VALUES ('Salvador', 'Perez', 7, 24, 8, 1, 0, 1, 3, 4, 0, 2, 0, 1)
+ 42      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 43           VALUES ('James', 'Shields', 2, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1)
+ 44      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 45           VALUES ('Jason', 'Vargas', 1, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1)
+ 46      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 47           VALUES ('Yordano', 'Ventura', 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
+ 48      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 49           VALUES ('Josh', 'Willingham', 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1)
+ 50      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 51           VALUES ('Jeremy', 'Affeldt', 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2)
+ 52      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 53           VALUES ('Joaquin', 'Arias', 3, 2, 1, 0, 0, 0, 0, 0, 0, 1, 0, 2)
+ 54      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 55           VALUES ('Brandon', 'Belt', 7, 26, 8, 1, 0, 0, 1, 2, 3, 9, 0, 2)
+ 56      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 57           VALUES ('Gregor', 'Blanco', 7, 28, 4, 0, 0, 1, 6, 2, 6, 4, 1, 2)
+ 58      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 59           VALUES ('Madison', 'Bumgarner', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2)
+ 60      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 61           VALUES ('Santiago', 'Casilla', 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2)
+ 62      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 63           VALUES ('Brandon', 'Crawford', 7, 23, 7, 0, 0, 0, 2, 4, 3, 6, 0, 2)
+ 64      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 65           VALUES ('Matt', 'Duffy', 2, 2, 1, 0, 0, 0, 1, 0, 0, 1, 0, 2)
+ 66      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 67           VALUES ('Tim', 'Hudson', 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2)
+ 68      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 69           VALUES ('Travis', 'Ishikawa', 6, 13, 3, 0, 0, 0, 0, 0, 1, 4, 0, 2)
+ 70      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 71           VALUES ('Tim', 'Lincecum', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2)
+ 72      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 73           VALUES ('Javier', 'Lopez', 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2)
+ 74      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 75           VALUES ('Jean', 'Machi', 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2)
+ 76      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 77           VALUES ('Mike', 'Morse', 6, 16, 4, 1, 0, 0, 2, 4, 1, 5, 0, 2)
+ 78      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 79           VALUES ('Joe', 'Panik', 7, 27, 6, 2, 1, 0, 3, 3, 2, 5, 0, 2)
+ 80      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 81           VALUES ('Jake', 'Peavy', 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2)
+ 82      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 83           VALUES ('Hunter', 'Pence', 7, 27, 12, 3, 0, 1, 7, 5, 3, 2, 0, 2)
+ 84      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 85           VALUES ('Juan', 'Perez', 6, 12, 3, 1, 0, 0, 1, 3, 0, 4, 0, 2)
+ 86      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 87           VALUES ('Yusmeiro', 'Petit', 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2)
+ 88      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 89           VALUES ('Buster', 'Posey', 7, 26, 4, 0, 0, 0, 1, 2, 3, 3, 0, 2)
+ 90      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 91           VALUES ('Sergio', 'Romo', 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2)
+ 92      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 93           VALUES ('Pablo', 'Sandoval', 7, 28, 12, 3, 0, 0, 6, 4, 1, 4, 0, 2)
+ 94      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 95           VALUES ('Hunter', 'Strickland', 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2)
+ 96      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 97           VALUES ('Andrew', 'Susac', 2, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2)
+ 98      INTO Players (First, Last, G, AB, H, DOUBLE, TRIPLE, HR, R, RBI, BB, SO, SB, Team)
+ 99           VALUES ('Ryan', 'Vogelsong', 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2)
+100  SELECT * FROM dual
+101  ;
+
+49 rows inserted.
+
+SQL> 
+SQL> CREATE TABLE Teams
+  2      (TEAM int, NAME varchar2(6), CITY varchar2(13), STATE varchar2(2))
+  3  ;
+
+Table TEAMS created.
+
+SQL> 
+SQL> INSERT ALL 
+  2      INTO Teams (TEAM, NAME, CITY, STATE)
+  3           VALUES (1, 'Royals', 'Kansas City', 'MO')
+  4      INTO Teams (TEAM, NAME, CITY, STATE)
+  5           VALUES (2, 'Giants', 'San Francisco', 'CA')
+  6  SELECT * FROM dual
+  7  ;
+
+2 rows inserted.
+
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> ---- Procedure section
+SQL> 
+SQL> --2. Create a procedure that will add a column called HBP and populate the column with 0's for all players. Call your procedure using CALL.
+SQL> ALTER TABLE Players add HBP NUMBER default 0;
+
+Table PLAYERS altered.
+
+SQL> desc Players;
+Name   Null? Type         
+------ ----- ------------ 
+FIRST        VARCHAR2(9)  
+LAST         VARCHAR2(10) 
+G            NUMBER(38)   
+AB           NUMBER(38)   
+H            NUMBER(38)   
+DOUBLE       NUMBER(38)   
+TRIPLE       NUMBER(38)   
+HR           NUMBER(38)   
+R            NUMBER(38)   
+RBI          NUMBER(38)   
+BB           NUMBER(38)   
+SO           NUMBER(38)   
+SB           NUMBER(38)   
+TEAM         NUMBER(38)   
+HBP          NUMBER       
+SQL> 
+SQL> SELECT * FROM Players;
+
+FIRST     LAST                G         AB          H     DOUBLE     TRIPLE         HR          R        RBI         BB         SO         SB       TEAM        HBP
+--------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
+Norichika Aoki                6         14          1          0          0          0          1          1          2          2          0          1          0
+Billy     Butler              5         15          5          1          0          0          1          3          1          1          0          1          0
+Lorenzo   Cain                7         26          8          2          0          0          4          4          3          3          0          1          0
+Tim       Collins             3          0          0          0          0          0          0          0          0          0          0          1          0
+Wade      Davis               4          0          0          0          0          0          0          0          0          0          0          1          0
+Danny     Duffy               2          0          0          0          0          0          0          0          0          0          0          1          0
+Jarrod    Dyson               5         10          2          0          0          0          0          0          1          2          0          1          0
+Alcides   Escobar             7         29          9          3          0          0          3          2          0          5          0          1          0
+Brandon   Finnegan            2          0          0          0          0          0          0          0          0          0          0          1          0
+Jason     Frasor              3          0          0          0          0          0          0          0          0          0          0          1          0
+Alex      Gordon              7         27          5          3          0          0          4          2          0          5          1          1          0
+
+FIRST     LAST                G         AB          H     DOUBLE     TRIPLE         HR          R        RBI         BB         SO         SB       TEAM        HBP
+--------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
+Terrance  Gore                1          0          0          0          0          0          1          0          0          0          0          1          0
+Jeremy    Guthrie             2          2          0          0          0          0          0          0          0          0          0          1          0
+Kelvin    Herrera             4          1          0          0          0          0          0          0          0          1          0          1          0
+Greg      Holland             3          0          0          0          0          0          0          0          0          0          0          1          0
+Eric      Hosmer              7         28          7          2          0          0          3          4          2          8          0          1          0
+Omar      Infante             7         22          7          3          0          1          4          5          1          6          0          1          0
+Mike      Moustakas           7         23          5          2          0          1          3          2          1          3          0          1          0
+Jayson    Nix                 2          2          0          0          0          0          0          0          0          1          0          1          0
+Salvador  Perez               7         24          8          1          0          1          3          4          0          2          0          1          0
+James     Shields             2          2          0          0          0          0          0          0          0          1          0          1          0
+Jason     Vargas              1          2          0          0          0          0          0          0          0          1          0          1          0
+
+FIRST     LAST                G         AB          H     DOUBLE     TRIPLE         HR          R        RBI         BB         SO         SB       TEAM        HBP
+--------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
+Yordano   Ventura             2          0          0          0          0          0          0          0          0          0          0          1          0
+Josh      Willingham          2          2          0          0          0          0          0          0          0          2          0          1          0
+Jeremy    Affeldt             4          0          0          0          0          0          0          0          0          0          0          2          0
+Joaquin   Arias               3          2          1          0          0          0          0          0          0          1          0          2          0
+Brandon   Belt                7         26          8          1          0          0          1          2          3          9          0          2          0
+Gregor    Blanco              7         28          4          0          0          1          6          2          6          4          1          2          0
+Madison   Bumgarner           3          4          0          0          0          0          0          0          0          2          0          2          0
+Santiago  Casilla             2          0          0          0          0          0          0          0          0          0          0          2          0
+Brandon   Crawford            7         23          7          0          0          0          2          4          3          6          0          2          0
+Matt      Duffy               2          2          1          0          0          0          1          0          0          1          0          2          0
+Tim       Hudson              2          1          0          0          0          0          0          0          0          0          0          2          0
+
+FIRST     LAST                G         AB          H     DOUBLE     TRIPLE         HR          R        RBI         BB         SO         SB       TEAM        HBP
+--------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
+Travis    Ishikawa            6         13          3          0          0          0          0          0          1          4          0          2          0
+Tim       Lincecum            1          0          0          0          0          0          0          0          0          0          0          2          0
+Javier    Lopez               3          0          0          0          0          0          0          0          0          0          0          2          0
+Jean      Machi               3          0          0          0          0          0          0          0          0          0          0          2          0
+Mike      Morse               6         16          4          1          0          0          2          4          1          5          0          2          0
+Joe       Panik               7         27          6          2          1          0          3          3          2          5          0          2          0
+Jake      Peavy               2          0          0          0          0          0          0          0          0          0          0          2          0
+Hunter    Pence               7         27         12          3          0          1          7          5          3          2          0          2          0
+Juan      Perez               6         12          3          1          0          0          1          3          0          4          0          2          0
+Yusmeiro  Petit               2          1          1          0          0          0          0          0          0          0          0          2          0
+Buster    Posey               7         26          4          0          0          0          1          2          3          3          0          2          0
+
+FIRST     LAST                G         AB          H     DOUBLE     TRIPLE         HR          R        RBI         BB         SO         SB       TEAM        HBP
+--------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
+Sergio    Romo                2          0          0          0          0          0          0          0          0          0          0          2          0
+Pablo     Sandoval            7         28         12          3          0          0          6          4          1          4          0          2          0
+Hunter    Strickland          4          0          0          0          0          0          0          0          0          0          0          2          0
+Andrew    Susac               2          2          0          0          0          0          0          0          0          1          0          2          0
+Ryan      Vogelsong           2          0          0          0          0          0          0          0          0          0          0          2          0
+
+49 rows selected. 
+
+SQL> 
+SQL> 
+SQL> --1. PA – Plate appearance: number of completed batting appearances
+SQL> CREATE OR REPLACE FUNCTION player_stats1
+  2  (
+  3  first_name_param VARCHAR2,
+  4  last_name_param VARCHAR2
+  5  )
+  6  RETURN NUMBER
+  7  AS plate_appearance NUMBER;
+  8  
+  9  BEGIN
+ 10  SELECT AB + BB + HBP AS Plate_appearance INTO plate_appearance
+ 11  FROM PLAYERS
+ 12  WHERE first = first_name_param AND last = last_name_param;
+ 13  RETURN plate_appearance;
+ 14  END;
+
+Function PLAYER_STATS1 compiled
+
+SQL> SELECT player_stats1('Lorenzo', 'Cain') AS Plate_appearance
+  2  FROM dual;
+
+PLATE_APPEARANCE
+----------------
+              29
+
+SQL> --2. K – Strike out (also abbreviated SO): number of times that a third strike is taken or swung at and missed, or bunted foul. 
+SQL> CREATE OR REPLACE FUNCTION player_stats_k
+  2  (
+  3  first_name_param VARCHAR2,
+  4  last_name_param VARCHAR2
+  5  )
+  6  RETURN NUMBER
+  7  AS K NUMBER;
+  8  
+  9  BEGIN
+ 10  SELECT SO AS Plate_appearance INTO K
+ 11  FROM PLAYERS
+ 12  WHERE first = first_name_param AND last = last_name_param;
+ 13  RETURN K;
+ 14  END;
+
+Function PLAYER_STATS_K compiled
+
+SQL> SELECT player_stats_k('Lorenzo', 'Cain') AS strikeouts
+  2  FROM dual;
+
+STRIKEOUTS
+----------
+         3
+
+SQL> --3. R – Runs scored: number of times a player crosses home plate
+SQL> CREATE OR REPLACE FUNCTION player_stats_r
+  2  (
+  3  first_name_param VARCHAR2,
+  4  last_name_param VARCHAR2
+  5  )
+  6  RETURN NUMBER
+  7  AS RUNS NUMBER;
+  8  
+  9  BEGIN
+ 10  SELECT R AS Plate_appearance INTO RUNS
+ 11  FROM PLAYERS
+ 12  WHERE first = first_name_param AND last = last_name_param;
+ 13  RETURN RUNS;
+ 14  END;
+
+Function PLAYER_STATS_R compiled
+
+SQL> SELECT player_stats_r('Lorenzo', 'Cain') AS runsscored
+  2  FROM dual;
+
+RUNSSCORED
+----------
+         4
+
+SQL> --4. TB – Total bases: one for each single, two for each double, three for each triple, and four for each home run [H + 2B + (2 × 3B) + (3 × HR)] 
+SQL>       --or [1B + (2 × 2B) + (3 × 3B) + (4 × HR)] NOTE: 2B = DOUBLE, 3B = TRIPLE, and HR = HOME RUN
+SQL> CREATE OR REPLACE FUNCTION player_stats_t
+  2  (
+  3  first_name_param VARCHAR2,
+  4  last_name_param VARCHAR2
+  5  )
+  6  RETURN NUMBER
+  7  AS 
+  8  TOTAL NUMBER;
+  9  
+ 10  BEGIN
+ 11  SELECT H + DOUBLE + (2 * TRIPLE) + (3 * HR)  AS Plate_appearance INTO TOTAL
+ 12  FROM PLAYERS
+ 13  WHERE first = first_name_param AND last = last_name_param;
+ 14  RETURN TOTAL;
+ 15  END;
+
+Function PLAYER_STATS_T compiled
+
+SQL> SELECT player_stats_t('Lorenzo', 'Cain') AS totalruns
+  2  FROM dual;
+
+ TOTALRUNS
+----------
+        10
+

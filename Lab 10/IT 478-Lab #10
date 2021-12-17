@@ -1,0 +1,443 @@
+SQL> SET ECHO ON;
+SQL> --1. Create a table named STATE_CITY.
+SQL> CREATE TABLE state_CITY (
+  2  state_abbrev VARCHAR2(2));
+
+Table STATE_CITY created.
+
+SQL> 
+SQL> --2. Use ALTER TABLE to add the column STATE_NAME to the STATE_CITY table
+SQL> --STATE_NAME's data type is VARCHAR2 (the length is 30). 
+SQL> ALTER TABLE STATE_CITY ADD  STATE_NAME VARCHAR2(30);
+
+Table STATE_CITY altered.
+
+SQL> --3. Use ALTER TABLE to add the column CITY_NAME to the STATE_CITY table CITY_NAME's
+SQL> --data type is VARCHAR2 (the length is 30).
+SQL> ALTER TABLE STATE_CITY ADD  CITY_NAME VARCHAR2(30);
+
+Table STATE_CITY altered.
+
+SQL> 
+SQL> --4. Insert the following roles in the STATE_CITY table:
+SQL>     INSERT INTO STATE_CITY VALUES('NV', 'Nevada', 'Las Vegas');
+
+1 row inserted.
+
+SQL>     INSERT INTO STATE_CITY VALUES('IL', 'Illinois', 'Chicago');
+
+1 row inserted.
+
+SQL>     INSERT INTO STATE_CITY VALUES('NY', 'New York', 'New York');
+
+1 row inserted.
+
+SQL> 
+SQL>     COMMIT;
+
+Commit complete.
+
+SQL>     DESC state_city;
+Name         Null? Type         
+------------ ----- ------------ 
+STATE_ABBREV       VARCHAR2(2)  
+STATE_NAME         VARCHAR2(30) 
+CITY_NAME          VARCHAR2(30) 
+SQL>     SELECT * FROM state_city;
+
+ST STATE_NAME                     CITY_NAME                     
+-- ------------------------------ ------------------------------
+NV Nevada                         Las Vegas                     
+IL Illinois                       Chicago                       
+NY New York                       New York                      
+
+SQL> 
+SQL> 
+SQL> --5. Below is the DDL to create and load the T table:
+SQL> CREATE TABLE t ( pid
+  2  NUMBER(5), fname
+  3  VARCHAR2(20), lname
+  4  VARCHAR2(25));
+
+Table T created.
+
+SQL> INSERT INTO t (pid, fname, lname) VALUES (1, 'Dan', 'Morgan');
+
+1 row inserted.
+
+SQL> INSERT INTO t (pid, fname, lname) VALUES (2, 'Jeremiah',
+  2  'Wilton');
+
+1 row inserted.
+
+SQL>  INSERT INTO t (pid, fname, lname) VALUES (3,
+  2  'Helen', 'Lofstrom');
+
+1 row inserted.
+
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> DESC t;
+Name  Null? Type         
+----- ----- ------------ 
+PID         NUMBER(5)    
+FNAME       VARCHAR2(20) 
+LNAME       VARCHAR2(25) 
+SQL> SELECT * FROM t;
+
+       PID FNAME                LNAME                    
+---------- -------------------- -------------------------
+         1 Dan                  Morgan                   
+         2 Jeremiah             Wilton                   
+         3 Helen                Lofstrom                 
+
+SQL> 
+SQL> --PART 2
+SQL> --a
+SQL> --Grant SELECT privileges on the table STATE_CITY to user IT47827. 
+SQL> GRANT SELECT ON STATE_CITY TO IT47827;
+
+Grant succeeded.
+
+SQL> 
+SQL> --b
+SQL> --Grant all privileges on the tables STATE_CITY and T to user IT47828. (Will require more than 1
+SQL> --statement) 
+SQL> 
+SQL> GRANT SELECT ON STATE_CITY TO IT47828;
+
+Grant succeeded.
+
+SQL> GRANT DELETE ON T TO IT47828;
+
+Grant succeeded.
+
+SQL> GRANT DELETE ON STATE_cITY TO IT47828;
+
+Grant succeeded.
+
+SQL> GRANT SELECT ON T TO IT47828;
+
+Grant succeeded.
+
+SQL> GRANT INSERT ON STATE_CITY TO IT47828;
+
+Grant succeeded.
+
+SQL> GRANT SELECT ON T TO IT47828;
+
+Grant succeeded.
+
+SQL> 
+SQL> -- c. 
+SQL> --Grant SELECT, INSERT and DELETE privileges on the tables STATE_CITY and T to user IT47829.
+SQL> --(Will require more than 1 statement). 
+SQL> GRANT SELECT ON STATE_CITY TO IT47829;
+
+Grant succeeded.
+
+SQL> GRANT SELECT ON T TO IT47829;
+
+Grant succeeded.
+
+SQL> 
+SQL> GRANT INSERT ON STATE_CITY TO IT47829;
+
+Grant succeeded.
+
+SQL> GRANT INSERT ON T TO IT47829;
+
+Grant succeeded.
+
+SQL> 
+SQL> GRANT DELETE ON STATE_CITY TO IT47829;
+
+Grant succeeded.
+
+SQL> GRANT DELETE ON T TO IT47829;
+
+Grant succeeded.
+
+SQL> 
+SQL> --d. i. Run the SQL below, ii. show me the results, and iii. EXPLAIN (in your own words) the results. 
+SQL> SET pagesize 40
+SQL> COLUMN table_name FORMAT A14
+SQL> COLUMN PRIVILEGE FORMAT A20
+SQL> COLUMN GRANTEE FORMAT A10
+SQL> select TABLE_NAME, PRIVILEGE, GRANTEE from USER_TAB_PRIVS
+  2  ORDER BY GRANTEE, TABLE_NAME;
+
+TABLE_NAME     PRIVILEGE            GRANTEE   
+-------------- -------------------- ----------
+INVOICES       SELECT               IT47814   
+SHARKATTACKS   SELECT               IT47814   
+STATE_CITY     SELECT               IT47827   
+BIN$Jutyn3G2Rs SELECT               IT47828   
+KEElqRPsMZJA==                                
+$0                                            
+
+BIN$O7rEFyfUSf SELECT               IT47828   
+KRgCK8p2cndg==                                
+$0                                            
+
+BIN$X9za0g3bRf SELECT               IT47828   
+a4vEW9z8JmCg==                                
+$0                                            
+
+BIN$X9za0g3bRf INSERT               IT47828   
+a4vEW9z8JmCg==                                
+$0                                            
+
+BIN$gKa19HPLR3 SELECT               IT47828   
++B6NG0taX9Hg==                                
+$0                                            
+
+BIN$gKa19HPLR3 INSERT               IT47828   
++B6NG0taX9Hg==                                
+$0                                            
+
+STATE_CITY     INSERT               IT47828   
+STATE_CITY     SELECT               IT47828   
+STATE_CITY     DELETE               IT47828   
+T              SELECT               IT47828   
+T              DELETE               IT47828   
+BIN$X9za0g3bRf INSERT               IT47829   
+a4vEW9z8JmCg==                                
+$0                                            
+
+BIN$X9za0g3bRf SELECT               IT47829   
+
+TABLE_NAME     PRIVILEGE            GRANTEE   
+-------------- -------------------- ----------
+a4vEW9z8JmCg==                                
+$0                                            
+
+BIN$gKa19HPLR3 SELECT               IT47829   
++B6NG0taX9Hg==                                
+$0                                            
+
+BIN$gKa19HPLR3 INSERT               IT47829   
++B6NG0taX9Hg==                                
+$0                                            
+
+STATE_CITY     SELECT               IT47829   
+STATE_CITY     DELETE               IT47829   
+STATE_CITY     INSERT               IT47829   
+T              DELETE               IT47829   
+T              INSERT               IT47829   
+T              SELECT               IT47829   
+IT47814        INHERIT PRIVILEGES   PUBLIC    
+
+25 rows selected. 
+
+SQL> --Explanation-It indicates the tables in the database, type of privileges available, and grantee. 
+SQL> --In addition, it also has the current usser(myself), the privilege I have, and the grantee
+SQL> 
+SQL> --e
+SQL> --Revoke the SELECT privileges on the table STATE_CITY from user IT47827. 
+SQL>  REVOKE SELECT ON STATE_CITY from IT47827;
+
+Revoke succeeded.
+
+SQL> 
+SQL> --f
+SQL> -- Revoke the DELETE privileges on the tables STATE_CITY and T from users IT47828 and
+SQL> --IT47829. (Will require more than 1 statement). 
+SQL> REVOKE DELETE ON STATE_CITY FROM IT47828;
+
+Revoke succeeded.
+
+SQL> REVOKE DELETE ON T FROM IT47828;
+
+Revoke succeeded.
+
+SQL> 
+SQL> REVOKE DELETE ON STATE_CITY FROM IT47829;
+
+Revoke succeeded.
+
+SQL> REVOKE DELETE ON T FROM IT47829;
+
+Revoke succeeded.
+
+SQL> 
+SQL> --g. Revoke all privileges on the table T from user IT47829. 
+SQL> 
+SQL> REVOKE ALL ON T FROM IT47829;
+
+Revoke succeeded.
+
+SQL> 
+SQL> --h. i. Run the SQL below, ii. show me the results, and iii. EXPLAIN (in your own words) the results
+SQL> --(Why are the results different than those in d?).
+SQL> SET pagesize 40
+SQL> COLUMN table_name FORMAT A14
+SQL> COLUMN PRIVILEGE FORMAT A20 
+SQL> COLUMN GRANTEE FORMAT A10 
+SQL> select TABLE_NAME, PRIVILEGE, GRANTEE
+  2  from USER_TAB_PRIVS 
+  3  ORDER BY GRANTEE, TABLE_NAME;
+
+TABLE_NAME     PRIVILEGE            GRANTEE   
+-------------- -------------------- ----------
+INVOICES       SELECT               IT47814   
+SHARKATTACKS   SELECT               IT47814   
+BIN$Jutyn3G2Rs SELECT               IT47828   
+KEElqRPsMZJA==                                
+$0                                            
+
+BIN$O7rEFyfUSf SELECT               IT47828   
+KRgCK8p2cndg==                                
+$0                                            
+
+BIN$X9za0g3bRf INSERT               IT47828   
+a4vEW9z8JmCg==                                
+$0                                            
+
+BIN$X9za0g3bRf SELECT               IT47828   
+a4vEW9z8JmCg==                                
+$0                                            
+
+BIN$gKa19HPLR3 INSERT               IT47828   
++B6NG0taX9Hg==                                
+$0                                            
+
+BIN$gKa19HPLR3 SELECT               IT47828   
++B6NG0taX9Hg==                                
+$0                                            
+
+STATE_CITY     SELECT               IT47828   
+STATE_CITY     INSERT               IT47828   
+T              SELECT               IT47828   
+BIN$X9za0g3bRf SELECT               IT47829   
+a4vEW9z8JmCg==                                
+$0                                            
+
+BIN$X9za0g3bRf INSERT               IT47829   
+a4vEW9z8JmCg==                                
+$0                                            
+
+
+TABLE_NAME     PRIVILEGE            GRANTEE   
+-------------- -------------------- ----------
+BIN$gKa19HPLR3 INSERT               IT47829   
++B6NG0taX9Hg==                                
+$0                                            
+
+BIN$gKa19HPLR3 SELECT               IT47829   
++B6NG0taX9Hg==                                
+$0                                            
+
+STATE_CITY     INSERT               IT47829   
+STATE_CITY     SELECT               IT47829   
+IT47814        INHERIT PRIVILEGES   PUBLIC    
+
+18 rows selected. 
+
+SQL> --Explanation-The query indicates the tables in the database, type of privileges available, and grantee. 
+SQL> --In addition, it also has the current usser(myself), the privilege I have, and the grantee
+SQL> 
+SQL> 
+SQL> 
+SQL> --Part 3.
+SQL> --IMPORTANT: For a-e below,
+SQL> --i. Run the SQL, ii. show me the results,
+SQL> --and iii. EXPLAIN (in your own words) the
+SQL> --results.
+SQL> SELECT * FROM user_role_privs;
+
+USERNAME                                                                                                                         GRANTED_ROLE                                                                                                                     ADM DEL DEF OS_ COM
+-------------------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------------------- --- --- --- --- ---
+IT47814                                                                                                                          CONNECT                                                                                                                          NO  NO  YES NO  YES
+IT47814                                                                                                                          RESOURCE                                                                                                                         NO  NO  YES NO  YES
+
+SQL> --  Explanation: This query describes the role granted to the current user-Myself   
+SQL> 
+SQL> SELECT * FROM user_sys_privs;
+
+USERNAME                                                                                                                         PRIVILEGE            ADM COM
+-------------------------------------------------------------------------------------------------------------------------------- -------------------- --- ---
+IT47814                                                                                                                          CREATE TABLE         NO  YES
+IT47814                                                                                                                          CREATE SESSION       NO  YES
+IT47814                                                                                                                          UNLIMITED TABLESPACE NO  YES
+
+SQL> -- Explanation: Lists system privileges granted to the current user-myself 
+SQL> 
+SQL> SELECT * FROM role_sys_privs;
+
+ROLE                                                                                                                             PRIVILEGE            ADM COM
+-------------------------------------------------------------------------------------------------------------------------------- -------------------- --- ---
+RESOURCE                                                                                                                         CREATE SEQUENCE      NO  YES
+RESOURCE                                                                                                                         CREATE TRIGGER       NO  YES
+CONNECT                                                                                                                          SET CONTAINER        NO  YES
+RESOURCE                                                                                                                         CREATE CLUSTER       NO  YES
+RESOURCE                                                                                                                         CREATE PROCEDURE     NO  YES
+RESOURCE                                                                                                                         CREATE TYPE          NO  YES
+CONNECT                                                                                                                          CREATE SESSION       NO  YES
+RESOURCE                                                                                                                         CREATE OPERATOR      NO  YES
+RESOURCE                                                                                                                         CREATE TABLE         NO  YES
+RESOURCE                                                                                                                         CREATE INDEXTYPE     NO  YES
+
+10 rows selected. 
+
+SQL> --Explanation: Describes system privileges provided to roles 
+SQL> 
+SQL> SELECT * FROM table_privileges WHERE owner LIKE 'I%';
+
+GRANTEE    OWNER                                                                                                                            TABLE_NAME     GRANTOR                                                                                                                          S I D U R A I CREATED
+---------- -------------------------------------------------------------------------------------------------------------------------------- -------------- -------------------------------------------------------------------------------------------------------------------------------- - - - - - - - -------
+IT47828    IT47814                                                                                                                          T              IT47814                                                                                                                          Y N N N N N N        
+IT47829    IT47814                                                                                                                          BIN$X9za0g3bRf IT47814                                                                                                                          Y A N N N N N        
+                                                                                                                                            a4vEW9z8JmCg==                                                                                                                                                       
+                                                                                                                                            $0                                                                                                                                                                   
+
+IT47828    IT47814                                                                                                                          BIN$X9za0g3bRf IT47814                                                                                                                          Y A N N N N N        
+                                                                                                                                            a4vEW9z8JmCg==                                                                                                                                                       
+                                                                                                                                            $0                                                                                                                                                                   
+
+IT47828    IT47814                                                                                                                          BIN$gKa19HPLR3 IT47814                                                                                                                          Y A N N N N N        
+                                                                                                                                            +B6NG0taX9Hg==                                                                                                                                                       
+                                                                                                                                            $0                                                                                                                                                                   
+
+IT47829    IT47814                                                                                                                          STATE_CITY     IT47814                                                                                                                          Y A N N N N N        
+IT47828    IT47814                                                                                                                          BIN$O7rEFyfUSf IT47814                                                                                                                          Y N N N N N N        
+                                                                                                                                            KRgCK8p2cndg==                                                                                                                                                       
+                                                                                                                                            $0                                                                                                                                                                   
+
+IT47829    IT47814                                                                                                                          BIN$gKa19HPLR3 IT47814                                                                                                                          Y A N N N N N        
+                                                                                                                                            +B6NG0taX9Hg==                                                                                                                                                       
+                                                                                                                                            $0                                                                                                                                                                   
+
+IT47828    IT47814                                                                                                                          STATE_CITY     IT47814                                                                                                                          Y A N N N N N        
+IT47828    IT47814                                                                                                                          BIN$Jutyn3G2Rs IT47814                                                                                                                          Y N N N N N N        
+                                                                                                                                            KEElqRPsMZJA==                                                                                                                                                       
+                                                                                                                                            $0                                                                                                                                                                   
+
+
+9 rows selected. 
+
+SQL> --Explanation:Gives a summary of the person who gives privileges, the privilegee, and whether or not the various itemized privileges have been provided
+SQL> 
+SQL> SELECT * FROM session_privs;
+
+PRIVILEGE           
+--------------------
+CREATE SESSION
+UNLIMITED TABLESPACE
+CREATE TABLE
+CREATE CLUSTER
+CREATE SEQUENCE
+CREATE PROCEDURE
+CREATE TRIGGER
+CREATE TYPE
+CREATE OPERATOR
+CREATE INDEXTYPE
+SET CONTAINER
+
+11 rows selected. 
+
+SQL> --  Explanation: Describes the privileges that are currently available to the user. 
